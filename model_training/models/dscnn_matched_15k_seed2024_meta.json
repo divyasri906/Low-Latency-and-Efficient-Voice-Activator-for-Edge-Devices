@@ -1,0 +1,7 @@
+{
+  "seed": 2024,
+  "train_mean": -34.27360916137695,
+  "train_std": 153.54496775136718,
+  "best_val_accuracy": 0.9599999785423279,
+  "total_params": 15121
+}

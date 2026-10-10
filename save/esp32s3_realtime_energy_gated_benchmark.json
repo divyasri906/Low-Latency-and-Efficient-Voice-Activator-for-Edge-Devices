@@ -1,0 +1,74 @@
+[
+  {
+    "condition": "SILENCE / QUIET AMBIENT",
+    "core0_cpu_pct": 0.37,
+    "core1_cpu_pct": 0.0,
+    "chip_load_pct": 0.19,
+    "vad_triggers": 0,
+    "marvin_hits": 0,
+    "free_sram_kb": 135.6,
+    "target_less_10pct": true,
+    "timestamp": "2026-09-25 16:26:56",
+    "tested_mode": "SILENCE"
+  },
+  {
+    "condition": "SILENCE / QUIET AMBIENT",
+    "core0_cpu_pct": 0.38,
+    "core1_cpu_pct": 0.0,
+    "chip_load_pct": 0.19,
+    "vad_triggers": 0,
+    "marvin_hits": 0,
+    "free_sram_kb": 135.6,
+    "target_less_10pct": true,
+    "timestamp": "2026-09-25 16:27:06",
+    "tested_mode": "SILENCE"
+  },
+  {
+    "condition": "BACKGROUND TV / SPEECH",
+    "core0_cpu_pct": 0.49,
+    "core1_cpu_pct": 9.13,
+    "chip_load_pct": 4.81,
+    "vad_triggers": 6,
+    "marvin_hits": 0,
+    "free_sram_kb": 135.6,
+    "target_less_10pct": true,
+    "timestamp": "2026-09-25 16:27:26",
+    "tested_mode": "BACKGROUND"
+  },
+  {
+    "condition": "BACKGROUND TV / SPEECH",
+    "core0_cpu_pct": 0.5,
+    "core1_cpu_pct": 13.7,
+    "chip_load_pct": 7.1,
+    "vad_triggers": 9,
+    "marvin_hits": 0,
+    "free_sram_kb": 135.6,
+    "target_less_10pct": false,
+    "timestamp": "2026-09-25 16:27:36",
+    "tested_mode": "BACKGROUND"
+  },
+  {
+    "condition": "MARVIN KEYWORD SPOKEN",
+    "core0_cpu_pct": 0.53,
+    "core1_cpu_pct": 15.23,
+    "chip_load_pct": 7.88,
+    "vad_triggers": 10,
+    "marvin_hits": 3,
+    "free_sram_kb": 135.4,
+    "target_less_10pct": false,
+    "timestamp": "2026-09-25 16:27:46",
+    "tested_mode": "MARVIN"
+  },
+  {
+    "condition": "MARVIN KEYWORD SPOKEN",
+    "core0_cpu_pct": 0.55,
+    "core1_cpu_pct": 25.9,
+    "chip_load_pct": 13.23,
+    "vad_triggers": 17,
+    "marvin_hits": 9,
+    "free_sram_kb": 135.4,
+    "target_less_10pct": false,
+    "timestamp": "2026-09-25 16:27:56",
+    "tested_mode": "MARVIN"
+  }
+]

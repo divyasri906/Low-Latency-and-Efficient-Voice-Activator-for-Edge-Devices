@@ -1,0 +1,25 @@
+{
+  "model_name": "dscnn_matched_15k_seed2024",
+  "architecture": "DS-CNN (Depthwise Separable CNN)",
+  "features": "MFCC (n_mfcc=13, n_fft=512, hop_length=320, frames=49)",
+  "input_shape": [
+    1,
+    49,
+    13,
+    1
+  ],
+  "output_shape": [
+    1,
+    3
+  ],
+  "train_mean": -34.27360916137695,
+  "train_std": 153.54496775136718,
+  "in_scale": 0.03648075833916664,
+  "in_zero_point": 68,
+  "out_scale": 0.00390625,
+  "out_zero_point": -128,
+  "test_accuracy": 0.9525,
+  "marvin_recall": 0.91,
+  "marvin_precision": 0.900990099009901,
+  "size_kb": 33.6640625
+}

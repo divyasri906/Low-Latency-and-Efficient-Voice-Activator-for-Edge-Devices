@@ -1,0 +1,19 @@
+# Core numerical & audio processing
+numpy>=1.22.0
+scipy>=1.10.0
+soundfile>=0.12.0
+
+# WebSocket edge-to-cloud server
+websockets>=12.0
+
+# Hardware serial automation & benchmarking
+pyserial>=3.5
+psutil>=5.9.0
+
+# Audio evaluation (Wideband PESQ)
+pesq>=0.0.4
+
+# Machine learning & TFLite inference
+# (Install tflite-runtime for lightweight evaluation or tensorflow for training/export)
+tflite-runtime>=2.14.0; sys_platform != 'win32'
+tensorflow>=2.12.0; sys_platform == 'win32'

@@ -1,0 +1,125 @@
+{
+  "dscnn_irdt_15k": {
+    "name": "dscnn_irdt_15k",
+    "filters": 52,
+    "blocks": 4,
+    "parameters": 15187,
+    "keras_path": "save/dscnn_irdt\\dscnn_irdt_15k.keras",
+    "tflite_fp32_path": "save/dscnn_irdt\\dscnn_irdt_15k_fp32.tflite",
+    "tflite_int8_path": "save/dscnn_irdt\\dscnn_irdt_15k_int8.tflite",
+    "fp32_size_kb": 60.95,
+    "int8_size_kb": 33.97,
+    "best_val_acc": 97.75,
+    "fp32_metrics": {
+      "test_acc": 96.5,
+      "recall": 99.0,
+      "precision": 88.39,
+      "fa_rate": 4.33,
+      "tp": 99,
+      "fn": 1,
+      "fp": 13,
+      "tn": 287
+    },
+    "int8_metrics": {
+      "acc": 96.0,
+      "recall": 99.0,
+      "precision": 86.84,
+      "fa_rate": 5.0,
+      "tp": 99,
+      "fn": 1,
+      "fp": 15,
+      "tn": 285
+    },
+    "performance": {
+      "feat_mean_ms": 0.567,
+      "nn_mean_ms": 45.196,
+      "nn_median_ms": 43.414,
+      "nn_p95_ms": 59.581,
+      "e2e_mean_ms": 45.763,
+      "cpu_util_normalized_pct": 9.1,
+      "cpu_util_raw_pct": 109.2
+    }
+  },
+  "dscnn_irdt_21k": {
+    "name": "dscnn_irdt_21k",
+    "filters": 64,
+    "blocks": 4,
+    "parameters": 21763,
+    "keras_path": "save/dscnn_irdt\\dscnn_irdt_21k.keras",
+    "tflite_fp32_path": "save/dscnn_irdt\\dscnn_irdt_21k_fp32.tflite",
+    "tflite_int8_path": "save/dscnn_irdt\\dscnn_irdt_21k_int8.tflite",
+    "fp32_size_kb": 85.37,
+    "int8_size_kb": 42.92,
+    "best_val_acc": 98.0,
+    "fp32_metrics": {
+      "test_acc": 96.0,
+      "recall": 99.0,
+      "precision": 86.84,
+      "fa_rate": 5.0,
+      "tp": 99,
+      "fn": 1,
+      "fp": 15,
+      "tn": 285
+    },
+    "int8_metrics": {
+      "acc": 95.75,
+      "recall": 99.0,
+      "precision": 86.09,
+      "fa_rate": 5.33,
+      "tp": 99,
+      "fn": 1,
+      "fp": 16,
+      "tn": 284
+    },
+    "performance": {
+      "feat_mean_ms": 0.58,
+      "nn_mean_ms": 45.226,
+      "nn_median_ms": 42.98,
+      "nn_p95_ms": 57.722,
+      "e2e_mean_ms": 45.806,
+      "cpu_util_normalized_pct": 8.8,
+      "cpu_util_raw_pct": 106.1
+    }
+  },
+  "dscnn_irdt_32k": {
+    "name": "dscnn_irdt_32k",
+    "filters": 80,
+    "blocks": 4,
+    "parameters": 32323,
+    "keras_path": "save/dscnn_irdt\\dscnn_irdt_32k.keras",
+    "tflite_fp32_path": "save/dscnn_irdt\\dscnn_irdt_32k_fp32.tflite",
+    "tflite_int8_path": "save/dscnn_irdt\\dscnn_irdt_32k_int8.tflite",
+    "fp32_size_kb": 124.93,
+    "int8_size_kb": 56.61,
+    "best_val_acc": 97.5,
+    "fp32_metrics": {
+      "test_acc": 97.5,
+      "recall": 98.0,
+      "precision": 92.45,
+      "fa_rate": 2.67,
+      "tp": 98,
+      "fn": 2,
+      "fp": 8,
+      "tn": 292
+    },
+    "int8_metrics": {
+      "acc": 97.5,
+      "recall": 98.0,
+      "precision": 92.45,
+      "fa_rate": 2.67,
+      "tp": 98,
+      "fn": 2,
+      "fp": 8,
+      "tn": 292
+    },
+    "performance": {
+      "feat_mean_ms": 0.56,
+      "nn_mean_ms": 44.938,
+      "nn_median_ms": 42.79,
+      "nn_p95_ms": 57.946,
+      "e2e_mean_ms": 45.498,
+      "cpu_util_normalized_pct": 8.8,
+      "cpu_util_raw_pct": 106.0
+    }
+  }
+}

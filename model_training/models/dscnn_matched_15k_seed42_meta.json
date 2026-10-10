@@ -1,0 +1,7 @@
+{
+  "seed": 42,
+  "train_mean": -34.359825134277344,
+  "train_std": 153.8157502220703,
+  "best_val_accuracy": 0.9674999713897705,
+  "total_params": 15121
+}

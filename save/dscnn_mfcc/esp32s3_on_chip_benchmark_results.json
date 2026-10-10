@@ -1,0 +1,14 @@
+{
+  "board": "ESP32-S3",
+  "cpu_freq_mhz": 240,
+  "feat_mean_ms": 44.35,
+  "nn_mean_ms": 3816.01,
+  "e2e_mean_ms": 3860.35,
+  "rtf": 3.8604,
+  "model_flash_kb": 33.7,
+  "tensor_arena_kb": 80.0,
+  "free_sram_kb": 267.8,
+  "p_marvin": 0.996,
+  "p_unknown": 0.996,
+  "p_silence": 0.996
+}

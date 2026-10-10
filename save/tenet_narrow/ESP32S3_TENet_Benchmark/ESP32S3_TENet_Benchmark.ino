@@ -1,0 +1,242 @@
+/**
+ * ESP32-S3 Physical On-Chip Benchmark for TENet6-Narrow with iRDT.
+ * 
+ * Evaluates:
+ * 1. Log-iRDT Feature Extraction Latency
+ * 2. TENet6-Narrow Inference Latency (TFLM Invoke)
+ * 3. Total End-to-End Latency & Real-Time Factor (RTF)
+ * 4. SRAM & Internal Heap Memory Usage
+ * 5. On-Device Prediction Accuracy across embedded test samples
+ */
+
+#include <TensorFlowLite_ESP32.h>
+#include <Arduino.h>
+#include <esp_timer.h>
+#include <esp_heap_caps.h>
+
+#include "tensorflow/lite/micro/all_ops_resolver.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/schema/schema_generated.h"
+
+#include "tenet6_narrow_model_data.h"
+#include "irdt_feature_extractor.h"
+#include "test_samples_embedded.h"
+
+// Configuration
+#define BENCHMARK_ITERATIONS 20
+#define WARMUP_ITERATIONS    5
+
+// Tensor Arena in internal SRAM
+constexpr int kTensorArenaSize = 120 * 1024;
+alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+
+// Global pointers
+static const tflite::Model* g_model = nullptr;
+static tflite::MicroInterpreter* g_interpreter = nullptr;
+static TfLiteTensor* g_input_tensor = nullptr;
+static TfLiteTensor* g_output_tensor = nullptr;
+
+// Feature buffer
+static float g_features[IRDT_TOTAL_FEATURES];
+
+// Latency statistics helper
+struct LatencyStats {
+    float mean_ms;
+    float median_ms;
+    float min_ms;
+    float max_ms;
+};
+
+static LatencyStats compute_stats(int64_t* times_us, int count) {
+    for (int i = 0; i < count - 1; ++i) {
+        for (int j = i + 1; j < count; ++j) {
+            if (times_us[j] < times_us[i]) {
+                int64_t tmp = times_us[i];
+                times_us[i] = times_us[j];
+                times_us[j] = tmp;
+            }
+        }
+    }
+    int64_t sum = 0;
+    for (int i = 0; i < count; ++i) sum += times_us[i];
+    LatencyStats s;
+    s.mean_ms = (float)sum / (count * 1000.0f);
+    s.median_ms = (float)times_us[count / 2] / 1000.0f;
+    s.min_ms = (float)times_us[0] / 1000.0f;
+    s.max_ms = (float)times_us[count - 1] / 1000.0f;
+    return s;
+}
+
+static void run_sample_inference(const int16_t* sample, float* p_marvin, float* p_unk, float* p_sil) {
+    compute_irdt_features_float(sample, g_features);
+    for (int i = 0; i < IRDT_TOTAL_FEATURES; ++i) {
+        g_input_tensor->data.f[i] = g_features[i];
+    }
+    g_interpreter->Invoke();
+    *p_marvin = g_output_tensor->data.f[0];
+    *p_unk    = g_output_tensor->data.f[1];
+    *p_sil    = g_output_tensor->data.f[2];
+}
+
+void run_full_benchmark() {
+    Serial.println("\n=======================================================================");
+    Serial.println("   ESP32-S3 ON-CHIP BENCHMARK: TENet6-Narrow INT8 WITH iRDT FEATURES   ");
+    Serial.println("=======================================================================");
+    Serial.printf("Running %d benchmark iterations...\n", BENCHMARK_ITERATIONS);
+
+    // Warmup
+    Serial.printf("Starting Warmup (%d runs)...\n", WARMUP_ITERATIONS);
+    for (int w = 0; w < WARMUP_ITERATIONS; ++w) {
+        Serial.printf("  Warmup %d: feat... ", w);
+        compute_irdt_features_float(g_test_sample_marvin, g_features);
+        for (int i = 0; i < IRDT_TOTAL_FEATURES; ++i) {
+            g_input_tensor->data.f[i] = g_features[i];
+        }
+        Serial.print("invoking... ");
+        TfLiteStatus s = g_interpreter->Invoke();
+        Serial.printf("done (status %d)\n", s);
+        delay(2);
+    }
+    Serial.println("Warmup complete!");
+
+    int64_t feat_times_us[BENCHMARK_ITERATIONS];
+    int64_t nn_times_us[BENCHMARK_ITERATIONS];
+    int64_t e2e_times_us[BENCHMARK_ITERATIONS];
+
+    for (int i = 0; i < BENCHMARK_ITERATIONS; ++i) {
+        int64_t t0 = esp_timer_get_time();
+        compute_irdt_features_float(g_test_sample_marvin, g_features);
+        for (int k = 0; k < IRDT_TOTAL_FEATURES; ++k) {
+            g_input_tensor->data.f[k] = g_features[k];
+        }
+        int64_t t1 = esp_timer_get_time();
+
+        g_interpreter->Invoke();
+        int64_t t2 = esp_timer_get_time();
+
+        feat_times_us[i] = (t1 - t0);
+        nn_times_us[i] = (t2 - t1);
+        e2e_times_us[i] = (t2 - t0);
+
+        Serial.print("  [Run "); Serial.print(i + 1); Serial.print("/"); Serial.print(BENCHMARK_ITERATIONS);
+        Serial.print("] iRDT: "); Serial.print((float)feat_times_us[i] / 1000.0f);
+        Serial.print(" ms | NN: "); Serial.print((float)nn_times_us[i] / 1000.0f);
+        Serial.print(" ms | E2E: "); Serial.print((float)e2e_times_us[i] / 1000.0f);
+        Serial.println(" ms");
+        Serial.flush();
+        delay(2);
+    }
+
+    LatencyStats feat_stats = compute_stats(feat_times_us, BENCHMARK_ITERATIONS);
+    LatencyStats nn_stats = compute_stats(nn_times_us, BENCHMARK_ITERATIONS);
+    LatencyStats e2e_stats = compute_stats(e2e_times_us, BENCHMARK_ITERATIONS);
+
+    // Accuracy validation on embedded test clips
+    float p_m_marvin, p_m_unk, p_m_sil;
+    float p_u_marvin, p_u_unk, p_u_sil;
+    float p_s_marvin, p_s_unk, p_s_sil;
+
+    run_sample_inference(g_test_sample_marvin, &p_m_marvin, &p_m_unk, &p_m_sil);
+    run_sample_inference(g_test_sample_unknown, &p_u_marvin, &p_u_unk, &p_u_sil);
+    run_sample_inference(g_test_sample_silence, &p_s_marvin, &p_s_unk, &p_s_sil);
+
+    uint32_t free_sram = heap_caps_get_free_size(MALLOC_CAP_INTERNAL);
+    uint32_t min_free_sram = heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL);
+
+    // Print Formatted Report Table
+    Serial.println("\n-----------------------------------------------------------------------");
+    Serial.println("1. LATENCY BENCHMARK (over sustained runs @ 240 MHz Xtensa LX7)");
+    Serial.println("-----------------------------------------------------------------------");
+    Serial.printf("  iRDT Feature Extraction:  Mean: %6.2f ms | Median: %6.2f ms | Min: %6.2f ms | Max: %6.2f ms\n",
+                  feat_stats.mean_ms, feat_stats.median_ms, feat_stats.min_ms, feat_stats.max_ms);
+    Serial.printf("  Neural Network Inference: Mean: %6.2f ms | Median: %6.2f ms | Min: %6.2f ms | Max: %6.2f ms\n",
+                  nn_stats.mean_ms, nn_stats.median_ms, nn_stats.min_ms, nn_stats.max_ms);
+    Serial.printf("  Total End-to-End Latency: Mean: %6.2f ms | Median: %6.2f ms | Min: %6.2f ms | Max: %6.2f ms\n",
+                  e2e_stats.mean_ms, e2e_stats.median_ms, e2e_stats.min_ms, e2e_stats.max_ms);
+    Serial.printf("  Real-Time Factor (RTF):   %6.4f  (Processes 1.0s audio in %.2f ms)\n",
+                  e2e_stats.mean_ms / 1000.0f, e2e_stats.mean_ms);
+
+    Serial.println("\n-----------------------------------------------------------------------");
+    Serial.println("2. MEMORY UTILIZATION ON ESP32-S3");
+    Serial.println("-----------------------------------------------------------------------");
+    Serial.printf("  Flash Footprint (Model):  %d bytes (%.1f KB)\n", g_tenet6_narrow_model_data_len, g_tenet6_narrow_model_data_len / 1024.0f);
+    Serial.printf("  Tensor Arena Size:        %d bytes (%.1f KB)\n", kTensorArenaSize, kTensorArenaSize / 1024.0f);
+    Serial.printf("  Free Internal SRAM:       %u bytes (%.1f KB free)\n", free_sram, free_sram / 1024.0f);
+    Serial.printf("  Min Ever Free SRAM:       %u bytes (%.1f KB)\n", min_free_sram, min_free_sram / 1024.0f);
+
+    Serial.println("\n-----------------------------------------------------------------------");
+    Serial.println("3. ON-DEVICE VALIDATION ON EMBEDDED TEST SAMPLES");
+    Serial.println("-----------------------------------------------------------------------");
+    Serial.printf("  [Test Clip 1: 'MARVIN']    -> P(Marvin)=%5.1f%% | P(Unknown)=%5.1f%% | P(Silence)=%5.1f%% -> %s\n",
+                  p_m_marvin * 100.0f, p_m_unk * 100.0f, p_m_sil * 100.0f,
+                  (p_m_marvin > 0.50f) ? "PASS (Correctly Detected)" : "FAIL");
+    Serial.printf("  [Test Clip 2: 'UNKNOWN']   -> P(Marvin)=%5.1f%% | P(Unknown)=%5.1f%% | P(Silence)=%5.1f%% -> %s\n",
+                  p_u_marvin * 100.0f, p_u_unk * 100.0f, p_u_sil * 100.0f,
+                  (p_u_unk > 0.50f && p_u_marvin < 0.20f) ? "PASS (No False Alarm)" : "FAIL");
+    Serial.printf("  [Test Clip 3: 'BACKGROUND']-> P(Marvin)=%5.1f%% | P(Unknown)=%5.1f%% | P(Silence)=%5.1f%% -> %s\n",
+                  p_s_marvin * 100.0f, p_s_unk * 100.0f, p_s_sil * 100.0f,
+                  (p_s_sil > 0.50f && p_s_marvin < 0.20f) ? "PASS (No False Alarm)" : "FAIL");
+
+    Serial.println("=======================================================================\n");
+
+    // Output JSON for host parsing
+    Serial.println("---BENCHMARK_JSON_START---");
+    Serial.printf("{\"board\":\"ESP32-S3\",\"cpu_freq_mhz\":%u,", getCpuFrequencyMhz());
+    Serial.printf("\"feat_mean_ms\":%.2f,\"nn_mean_ms\":%.2f,\"e2e_mean_ms\":%.2f,",
+                  feat_stats.mean_ms, nn_stats.mean_ms, e2e_stats.mean_ms);
+    Serial.printf("\"rtf\":%.4f,\"model_flash_kb\":%.1f,\"tensor_arena_kb\":%.1f,\"free_sram_kb\":%.1f,",
+                  e2e_stats.mean_ms / 1000.0f, g_tenet6_narrow_model_data_len / 1024.0f,
+                  kTensorArenaSize / 1024.0f, free_sram / 1024.0f);
+    Serial.printf("\"p_marvin\":%.3f,\"p_unknown\":%.3f,\"p_silence\":%.3f}\n",
+                  p_m_marvin, p_u_unk, p_s_sil);
+    Serial.println("---BENCHMARK_JSON_END---");
+}
+
+void setup() {
+    Serial.begin(115200);
+    delay(2000);
+
+    g_model = tflite::GetModel(g_tenet6_narrow_model_data);
+    if (g_model->version() != TFLITE_SCHEMA_VERSION) {
+        Serial.printf("Schema mismatch: %d != %d\n", g_model->version(), TFLITE_SCHEMA_VERSION);
+        return;
+    }
+
+    static tflite::MicroMutableOpResolver<10> resolver;
+    resolver.AddAdd();
+    resolver.AddAveragePool2D();
+    resolver.AddConv2D();
+    resolver.AddDepthwiseConv2D();
+    resolver.AddDequantize();
+    resolver.AddQuantize();
+    resolver.AddReshape();
+    resolver.AddSoftmax();
+
+    static tflite::MicroErrorReporter micro_error_reporter;
+    static tflite::ErrorReporter* error_reporter = &micro_error_reporter;
+    static tflite::MicroInterpreter static_interpreter(
+        g_model, resolver, tensor_arena, kTensorArenaSize, error_reporter);
+    g_interpreter = &static_interpreter;
+
+    if (g_interpreter->AllocateTensors() != kTfLiteOk) {
+        Serial.println("AllocateTensors failed!");
+        return;
+    }
+
+    g_input_tensor = g_interpreter->input(0);
+    g_output_tensor = g_interpreter->output(0);
+
+    run_full_benchmark();
+    Serial.println("Type 'b' and press Enter to rerun benchmark at any time.");
+}
+
+void loop() {
+    if (Serial.available()) {
+        char c = Serial.read();
+        if ((c == 'b' || c == 'B') && g_input_tensor != nullptr) {
+            run_full_benchmark();
+        }
+    }
+    delay(100);
+}

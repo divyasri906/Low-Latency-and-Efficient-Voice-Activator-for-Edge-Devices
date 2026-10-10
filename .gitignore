@@ -1,0 +1,55 @@
+# ============================================================
+# Python Virtual Environments & Packages
+# ============================================================
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# ============================================================
+# IDEs and System Artifacts
+# ============================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ============================================================
+# Embedded & Hardware Build Cache
+# ============================================================
+build_esp32s3/
+*.o
+*.elf
+*.bin
+compile_log.txt
+
+# ============================================================
+# Heavy Model Checkpoints (Keep .tflite, .h, .json, and .md)
+# Exclude raw multi-megabyte training checkpoint weights
+# ============================================================
+save/**/*.ckpt*
+save/**/*.meta
+save/**/*.data*
+save/**/*.index
+save/**/frozen_checkpoint.pb
+
+# Intermediate sweep and test experiment directories
+save/sweep_win_per_segm/
+save/tenet_scale_w5/
+save/tenet12/
+save/test_dryrun/
+save/test_retrain_w3/
+save/ensemble_w5/
+save/optimized_w5/
+save/asymmetric_w5/
+save/MTENet_Fusion/
+save/TENet6Narrow_MultiSeed/
+save/TENet6NarrowIRDTModel/
+save/tenet_log_int8/
+save/rpi5/

@@ -1,0 +1,14 @@
+{
+  "seed_42": {
+    "checkpoint": "model_training/models\\dscnn_matched_15k_seed42.keras",
+    "best_val_acc": 0.9674999713897705
+  },
+  "seed_101": {
+    "checkpoint": "model_training/models\\dscnn_matched_15k_seed101.keras",
+    "best_val_acc": 0.9649999737739563
+  },
+  "seed_2024": {
+    "checkpoint": "model_training/models\\dscnn_matched_15k_seed2024.keras",
+    "best_val_acc": 0.9599999785423279
+  }
+}

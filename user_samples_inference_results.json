@@ -1,0 +1,1034 @@
+{
+  "total_samples": 31,
+  "ensemble_detected_tau_0_50": 20,
+  "ensemble_detected_tau_0_80": 15,
+  "ensemble_detected_tau_0_95": 10,
+  "seed101_detected_tau_0_50": 21,
+  "seed101_detected_tau_0_80": 19,
+  "seed101_detected_tau_0_95": 16,
+  "samples": [
+    {
+      "index": 1,
+      "filename": "usermarvin20260914_124457.wav",
+      "rms_energy": 0.021241815760731697,
+      "ensemble": {
+        "p_marvin": 0.9879229068756104,
+        "p_unknown": 0.011957441456615925,
+        "p_silence": 0.00011970535706495866,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9920401573181152,
+        "p_unknown": 0.007778099272400141,
+        "p_silence": 0.00018180353799834847,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9734328389167786,
+        "p_unknown": 0.026491442695260048,
+        "p_silence": 7.574092887807637e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.9982957243919373,
+        "p_unknown": 0.0016027828678488731,
+        "p_silence": 0.00010157159704249352
+      }
+    },
+    {
+      "index": 2,
+      "filename": "usermarvin20260914_131429.wav",
+      "rms_energy": 0.021429184824228287,
+      "ensemble": {
+        "p_marvin": 0.9999331831932068,
+        "p_unknown": 6.187910184962675e-05,
+        "p_silence": 4.993567017663736e-06,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9999994039535522,
+        "p_unknown": 2.838937689375598e-07,
+        "p_silence": 3.099005994045001e-07,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9999877214431763,
+        "p_unknown": 8.85947792994557e-06,
+        "p_silence": 3.4976533243025187e-06
+      },
+      "seed_2024": {
+        "p_marvin": 0.9998123049736023,
+        "p_unknown": 0.00017649392248131335,
+        "p_silence": 1.1173146958753932e-05
+      }
+    },
+    {
+      "index": 3,
+      "filename": "usermarvin20260914_131714.wav",
+      "rms_energy": 0.023806417360901833,
+      "ensemble": {
+        "p_marvin": 0.9997191429138184,
+        "p_unknown": 0.0002734779263846576,
+        "p_silence": 7.292272130143829e-06,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9996849298477173,
+        "p_unknown": 0.00030324928229674697,
+        "p_silence": 1.1820921827165876e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9994826316833496,
+        "p_unknown": 0.0005100163398310542,
+        "p_silence": 7.216148787847487e-06
+      },
+      "seed_2024": {
+        "p_marvin": 0.9999899864196777,
+        "p_unknown": 7.168130196077982e-06,
+        "p_silence": 2.8397469122865004e-06
+      }
+    },
+    {
+      "index": 4,
+      "filename": "usermarvin20260914_131859.wav",
+      "rms_energy": 0.02740076743066311,
+      "ensemble": {
+        "p_marvin": 0.9997382164001465,
+        "p_unknown": 0.0002494288783054799,
+        "p_silence": 1.23762465591426e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9999945163726807,
+        "p_unknown": 3.5618902529677143e-06,
+        "p_silence": 1.9637545847217552e-06,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9992489218711853,
+        "p_unknown": 0.0007231893832795322,
+        "p_silence": 2.7879117624252103e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.9999711513519287,
+        "p_unknown": 2.1535332052735612e-05,
+        "p_silence": 7.285869287443347e-06
+      }
+    },
+    {
+      "index": 5,
+      "filename": "usermarvin20260914_132629.wav",
+      "rms_energy": 0.013430817984044552,
+      "ensemble": {
+        "p_marvin": 0.9323761463165283,
+        "p_unknown": 0.06732142716646194,
+        "p_silence": 0.0003024090256076306,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9955922961235046,
+        "p_unknown": 0.004348586313426495,
+        "p_silence": 5.905769648961723e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9219048023223877,
+        "p_unknown": 0.07799164950847626,
+        "p_silence": 0.00010356507846154273
+      },
+      "seed_2024": {
+        "p_marvin": 0.8796313405036926,
+        "p_unknown": 0.119624063372612,
+        "p_silence": 0.0007446042727679014
+      }
+    },
+    {
+      "index": 6,
+      "filename": "usermarvin20260914_132716.wav",
+      "rms_energy": 0.0135949170216918,
+      "ensemble": {
+        "p_marvin": 0.9709396958351135,
+        "p_unknown": 0.02872537076473236,
+        "p_silence": 0.0003349075559526682,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9993372559547424,
+        "p_unknown": 0.0006191754946485162,
+        "p_silence": 4.3623349483823404e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.972687840461731,
+        "p_unknown": 0.027114378288388252,
+        "p_silence": 0.0001977404608624056
+      },
+      "seed_2024": {
+        "p_marvin": 0.940794050693512,
+        "p_unknown": 0.05844256281852722,
+        "p_silence": 0.0007633588975295424
+      }
+    },
+    {
+      "index": 7,
+      "filename": "usermarvin20260914_132728.wav",
+      "rms_energy": 0.014225325547158718,
+      "ensemble": {
+        "p_marvin": 0.02011881209909916,
+        "p_unknown": 0.9796192049980164,
+        "p_silence": 0.00026200636057183146,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.014445561915636063,
+        "p_unknown": 0.9852460026741028,
+        "p_silence": 0.0003084952768404037,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.023603832349181175,
+        "p_unknown": 0.9761053919792175,
+        "p_silence": 0.00029078545048832893
+      },
+      "seed_2024": {
+        "p_marvin": 0.02230704203248024,
+        "p_unknown": 0.977506160736084,
+        "p_silence": 0.00018673839804250747
+      }
+    },
+    {
+      "index": 8,
+      "filename": "usermarvin20260914_132741.wav",
+      "rms_energy": 0.013098231516778469,
+      "ensemble": {
+        "p_marvin": 9.546283399686217e-05,
+        "p_unknown": 0.999886691570282,
+        "p_silence": 1.777613942977041e-05,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 3.669748912216164e-05,
+        "p_unknown": 0.9999558925628662,
+        "p_silence": 7.379848739219597e-06,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.0002451201726216823,
+        "p_unknown": 0.9997108578681946,
+        "p_silence": 4.3981755879940465e-05
+      },
+      "seed_2024": {
+        "p_marvin": 4.570857981889276e-06,
+        "p_unknown": 0.9999934434890747,
+        "p_silence": 1.9668166260089492e-06
+      }
+    },
+    {
+      "index": 9,
+      "filename": "usermarvin20260914_132753.wav",
+      "rms_energy": 0.01744985766708851,
+      "ensemble": {
+        "p_marvin": 0.3934965133666992,
+        "p_unknown": 0.6060071587562561,
+        "p_silence": 0.0004963119863532484,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.001493886229582131,
+        "p_unknown": 0.9984985589981079,
+        "p_silence": 7.5479842962522525e-06,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.3923678398132324,
+        "p_unknown": 0.6074017882347107,
+        "p_silence": 0.00023035281628835946
+      },
+      "seed_2024": {
+        "p_marvin": 0.7866277694702148,
+        "p_unknown": 0.2121211737394333,
+        "p_silence": 0.0012510351371020079
+      }
+    },
+    {
+      "index": 10,
+      "filename": "usermarvin20260914_132805.wav",
+      "rms_energy": 0.014404301531612873,
+      "ensemble": {
+        "p_marvin": 0.833942711353302,
+        "p_unknown": 0.16537293791770935,
+        "p_silence": 0.0006844038725830615,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9990149736404419,
+        "p_unknown": 0.0009667924023233354,
+        "p_silence": 1.8242526493850164e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9134087562561035,
+        "p_unknown": 0.08600011467933655,
+        "p_silence": 0.000591183197684586
+      },
+      "seed_2024": {
+        "p_marvin": 0.5894043445587158,
+        "p_unknown": 0.40915191173553467,
+        "p_silence": 0.001443785964511335
+      }
+    },
+    {
+      "index": 11,
+      "filename": "usermarvin20260914_132817.wav",
+      "rms_energy": 0.007322395220398903,
+      "ensemble": {
+        "p_marvin": 0.9478728771209717,
+        "p_unknown": 0.051222529262304306,
+        "p_silence": 0.0009046471677720547,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.881020188331604,
+        "p_unknown": 0.11782096326351166,
+        "p_silence": 0.0011588978813961148,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.9642017483711243,
+        "p_unknown": 0.034656524658203125,
+        "p_silence": 0.0011417437344789505
+      },
+      "seed_2024": {
+        "p_marvin": 0.9983965754508972,
+        "p_unknown": 0.0011900992831215262,
+        "p_silence": 0.000413300032960251
+      }
+    },
+    {
+      "index": 12,
+      "filename": "usermarvin20260914_132829.wav",
+      "rms_energy": 0.007924437522888184,
+      "ensemble": {
+        "p_marvin": 0.33973631262779236,
+        "p_unknown": 0.6588059067726135,
+        "p_silence": 0.001457807025872171,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.08174040913581848,
+        "p_unknown": 0.9160454869270325,
+        "p_silence": 0.002214091829955578,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.006688023917376995,
+        "p_unknown": 0.9930272698402405,
+        "p_silence": 0.00028472021222114563
+      },
+      "seed_2024": {
+        "p_marvin": 0.9307804703712463,
+        "p_unknown": 0.06734490394592285,
+        "p_silence": 0.0018746086861938238
+      }
+    },
+    {
+      "index": 13,
+      "filename": "usermarvin20260914_132840.wav",
+      "rms_energy": 0.007861630991101265,
+      "ensemble": {
+        "p_marvin": 0.94223552942276,
+        "p_unknown": 0.05734643712639809,
+        "p_silence": 0.000418069917941466,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.994615375995636,
+        "p_unknown": 0.005148114170879126,
+        "p_silence": 0.00023652239178773016,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.8383013010025024,
+        "p_unknown": 0.16144368052482605,
+        "p_silence": 0.0002550625940784812
+      },
+      "seed_2024": {
+        "p_marvin": 0.9937898516654968,
+        "p_unknown": 0.00544751575216651,
+        "p_silence": 0.0007626247825101018
+      }
+    },
+    {
+      "index": 14,
+      "filename": "usermarvin20260914_133412.wav",
+      "rms_energy": 0.0064384350553154945,
+      "ensemble": {
+        "p_marvin": 0.5967682003974915,
+        "p_unknown": 0.3934107720851898,
+        "p_silence": 0.009821000508964062,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.3737582266330719,
+        "p_unknown": 0.6230061054229736,
+        "p_silence": 0.003235632088035345,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.4327119290828705,
+        "p_unknown": 0.5542743802070618,
+        "p_silence": 0.013013694435358047
+      },
+      "seed_2024": {
+        "p_marvin": 0.9838345050811768,
+        "p_unknown": 0.002951804781332612,
+        "p_silence": 0.01321367360651493
+      }
+    },
+    {
+      "index": 15,
+      "filename": "usermarvin20260914_133446.wav",
+      "rms_energy": 0.006861340720206499,
+      "ensemble": {
+        "p_marvin": 0.9373717904090881,
+        "p_unknown": 0.06076489016413689,
+        "p_silence": 0.0018633027793839574,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9166985750198364,
+        "p_unknown": 0.08116123080253601,
+        "p_silence": 0.0021401001140475273,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.9010378122329712,
+        "p_unknown": 0.09728456288576126,
+        "p_silence": 0.0016776187112554908
+      },
+      "seed_2024": {
+        "p_marvin": 0.9943789839744568,
+        "p_unknown": 0.0038488770369440317,
+        "p_silence": 0.0017721893964335322
+      }
+    },
+    {
+      "index": 16,
+      "filename": "usermarvin20260914_133458.wav",
+      "rms_energy": 0.01231627818197012,
+      "ensemble": {
+        "p_marvin": 0.997096061706543,
+        "p_unknown": 0.002734916051849723,
+        "p_silence": 0.00016902621428016573,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9918591380119324,
+        "p_unknown": 0.007875330746173859,
+        "p_silence": 0.00026552838971838355,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9996634721755981,
+        "p_unknown": 0.00031231960747390985,
+        "p_silence": 2.415805465716403e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.9997655749320984,
+        "p_unknown": 1.7096923329518177e-05,
+        "p_silence": 0.0002173922403017059
+      }
+    },
+    {
+      "index": 17,
+      "filename": "usermarvin20260914_133540.wav",
+      "rms_energy": 0.008365580812096596,
+      "ensemble": {
+        "p_marvin": 0.9970423579216003,
+        "p_unknown": 0.0027504079043865204,
+        "p_silence": 0.0002072694041999057,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9990149736404419,
+        "p_unknown": 0.0008891495526768267,
+        "p_silence": 9.58183009061031e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9924318790435791,
+        "p_unknown": 0.007229265756905079,
+        "p_silence": 0.0003388849145267159
+      },
+      "seed_2024": {
+        "p_marvin": 0.9996801614761353,
+        "p_unknown": 0.00013280856364872307,
+        "p_silence": 0.00018710497533902526
+      }
+    },
+    {
+      "index": 18,
+      "filename": "usermarvin20260914_133556.wav",
+      "rms_energy": 0.010742553509771824,
+      "ensemble": {
+        "p_marvin": 0.045131027698516846,
+        "p_unknown": 0.9530910849571228,
+        "p_silence": 0.00177793821785599,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.048074159771203995,
+        "p_unknown": 0.9479992985725403,
+        "p_silence": 0.003926516976207495,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.07707703858613968,
+        "p_unknown": 0.9222044944763184,
+        "p_silence": 0.0007185183349065483
+      },
+      "seed_2024": {
+        "p_marvin": 0.010241877287626266,
+        "p_unknown": 0.989069402217865,
+        "p_silence": 0.0006887795752845705
+      }
+    },
+    {
+      "index": 19,
+      "filename": "usermarvin20260914_133831.wav",
+      "rms_energy": 0.012722047045826912,
+      "ensemble": {
+        "p_marvin": 0.5711519718170166,
+        "p_unknown": 0.4281647205352783,
+        "p_silence": 0.000683290883898735,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.856039822101593,
+        "p_unknown": 0.1435443013906479,
+        "p_silence": 0.0004159389063715935,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.6287968754768372,
+        "p_unknown": 0.37079915404319763,
+        "p_silence": 0.00040393281960859895
+      },
+      "seed_2024": {
+        "p_marvin": 0.22861923277378082,
+        "p_unknown": 0.7701507806777954,
+        "p_silence": 0.0012300008675083518
+      }
+    },
+    {
+      "index": 20,
+      "filename": "usermarvin20260914_133858.wav",
+      "rms_energy": 0.01569647155702114,
+      "ensemble": {
+        "p_marvin": 0.9763825535774231,
+        "p_unknown": 0.023361945524811745,
+        "p_silence": 0.00025555468164384365,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9954881072044373,
+        "p_unknown": 0.0044688512571156025,
+        "p_silence": 4.309252472012304e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9336897730827332,
+        "p_unknown": 0.06559921056032181,
+        "p_silence": 0.0007110222359187901
+      },
+      "seed_2024": {
+        "p_marvin": 0.9999697208404541,
+        "p_unknown": 1.7774209482013248e-05,
+        "p_silence": 1.2549265193229076e-05
+      }
+    },
+    {
+      "index": 21,
+      "filename": "usermarvin20260914_133913.wav",
+      "rms_energy": 0.01451139710843563,
+      "ensemble": {
+        "p_marvin": 0.008417611010372639,
+        "p_unknown": 0.9913864135742188,
+        "p_silence": 0.00019598327344283462,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.0005941352574154735,
+        "p_unknown": 0.9993877410888672,
+        "p_silence": 1.8100739907822572e-05,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.0004331052186898887,
+        "p_unknown": 0.9995241165161133,
+        "p_silence": 4.2774536268552765e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.024225594475865364,
+        "p_unknown": 0.9752472639083862,
+        "p_silence": 0.0005270745605230331
+      }
+    },
+    {
+      "index": 22,
+      "filename": "usermarvin20260914_134105.wav",
+      "rms_energy": 0.02567865513265133,
+      "ensemble": {
+        "p_marvin": 0.7955864071846008,
+        "p_unknown": 0.20410002768039703,
+        "p_silence": 0.0003135222941637039,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9998862743377686,
+        "p_unknown": 0.0001102039750549011,
+        "p_silence": 3.4222575777675956e-06,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.387498676776886,
+        "p_unknown": 0.6115851402282715,
+        "p_silence": 0.0009162091300822794
+      },
+      "seed_2024": {
+        "p_marvin": 0.9993743300437927,
+        "p_unknown": 0.0006047656061127782,
+        "p_silence": 2.0935500288032927e-05
+      }
+    },
+    {
+      "index": 23,
+      "filename": "usermarvin20260914_134208.wav",
+      "rms_energy": 0.023341631516814232,
+      "ensemble": {
+        "p_marvin": 0.096378855407238,
+        "p_unknown": 0.9032769203186035,
+        "p_silence": 0.0003442741872277111,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.05972539260983467,
+        "p_unknown": 0.9402557015419006,
+        "p_silence": 1.882959077192936e-05,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.012495629489421844,
+        "p_unknown": 0.9874511957168579,
+        "p_silence": 5.3235620725899935e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.2169155329465866,
+        "p_unknown": 0.7821236848831177,
+        "p_silence": 0.0009607573156245053
+      }
+    },
+    {
+      "index": 24,
+      "filename": "usermarvin20260914_134234.wav",
+      "rms_energy": 0.008550821803510189,
+      "ensemble": {
+        "p_marvin": 0.4294809103012085,
+        "p_unknown": 0.5689905881881714,
+        "p_silence": 0.001528556807897985,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9787595868110657,
+        "p_unknown": 0.019620347768068314,
+        "p_silence": 0.0016201091930270195,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.252149760723114,
+        "p_unknown": 0.7471676468849182,
+        "p_silence": 0.0006826450699009001
+      },
+      "seed_2024": {
+        "p_marvin": 0.05753336846828461,
+        "p_unknown": 0.9401837587356567,
+        "p_silence": 0.0022829158697277308
+      }
+    },
+    {
+      "index": 25,
+      "filename": "usermarvin20260914_134251.wav",
+      "rms_energy": 0.0225046556442976,
+      "ensemble": {
+        "p_marvin": 0.9999775886535645,
+        "p_unknown": 1.7968450265470892e-05,
+        "p_silence": 4.445832928468008e-06,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9999995231628418,
+        "p_unknown": 1.0648292914083868e-07,
+        "p_silence": 3.711356271196564e-07,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.999954104423523,
+        "p_unknown": 4.268041084287688e-05,
+        "p_silence": 3.2702066619094694e-06
+      },
+      "seed_2024": {
+        "p_marvin": 0.9999792575836182,
+        "p_unknown": 1.1118458132841624e-05,
+        "p_silence": 9.696156666905154e-06
+      }
+    },
+    {
+      "index": 26,
+      "filename": "usermarvin20260914_134312.wav",
+      "rms_energy": 0.040545959025621414,
+      "ensemble": {
+        "p_marvin": 1.8715350961429067e-05,
+        "p_unknown": 0.9999728202819824,
+        "p_silence": 8.501943739247508e-06,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 4.452166467672214e-05,
+        "p_unknown": 0.9999336004257202,
+        "p_silence": 2.1928388378000818e-05,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 1.0850709259102587e-05,
+        "p_unknown": 0.9999866485595703,
+        "p_silence": 2.44106877289596e-06
+      },
+      "seed_2024": {
+        "p_marvin": 7.736793463664071e-07,
+        "p_unknown": 0.9999980926513672,
+        "p_silence": 1.1363741805325844e-06
+      }
+    },
+    {
+      "index": 27,
+      "filename": "usermarvin20260914_134438.wav",
+      "rms_energy": 0.07749621570110321,
+      "ensemble": {
+        "p_marvin": 0.6634337902069092,
+        "p_unknown": 0.3363986909389496,
+        "p_silence": 0.00016759229765739292,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.9979627132415771,
+        "p_unknown": 0.0020130255725234747,
+        "p_silence": 2.432249857520219e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.004385749343782663,
+        "p_unknown": 0.9952818751335144,
+        "p_silence": 0.00033240890479646623
+      },
+      "seed_2024": {
+        "p_marvin": 0.9879528880119324,
+        "p_unknown": 0.011901097372174263,
+        "p_silence": 0.0001460454659536481
+      }
+    },
+    {
+      "index": 28,
+      "filename": "usermarvin20260914_134504.wav",
+      "rms_energy": 0.08851698786020279,
+      "ensemble": {
+        "p_marvin": 0.6091731190681458,
+        "p_unknown": 0.3904230296611786,
+        "p_silence": 0.00040383078157901764,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.6595929265022278,
+        "p_unknown": 0.33966293931007385,
+        "p_silence": 0.0007441126508638263,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.1724565178155899,
+        "p_unknown": 0.8271103501319885,
+        "p_silence": 0.00043312975321896374
+      },
+      "seed_2024": {
+        "p_marvin": 0.9954699277877808,
+        "p_unknown": 0.004495757631957531,
+        "p_silence": 3.424996248213574e-05
+      }
+    },
+    {
+      "index": 29,
+      "filename": "usermarvin20260914_134604.wav",
+      "rms_energy": 0.018611278384923935,
+      "ensemble": {
+        "p_marvin": 0.9999356865882874,
+        "p_unknown": 3.88769076380413e-05,
+        "p_silence": 2.5373306925757788e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_101": {
+        "p_marvin": 0.9999216794967651,
+        "p_unknown": 3.814262163359672e-05,
+        "p_silence": 4.015449667349458e-05,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": true,
+        "detected_tau_0_95": true
+      },
+      "seed_42": {
+        "p_marvin": 0.9998974800109863,
+        "p_unknown": 7.553612522315234e-05,
+        "p_silence": 2.6935545974993147e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.9999879598617554,
+        "p_unknown": 2.9519708277803147e-06,
+        "p_silence": 9.029876309796236e-06
+      }
+    },
+    {
+      "index": 30,
+      "filename": "usermarvin20260914_134639.wav",
+      "rms_energy": 0.018397284671664238,
+      "ensemble": {
+        "p_marvin": 0.007423651870340109,
+        "p_unknown": 0.9922696948051453,
+        "p_silence": 0.00030675591551698744,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 1.8013948647421785e-05,
+        "p_unknown": 0.9999809265136719,
+        "p_silence": 1.1081272077717585e-06,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 5.885369682800956e-05,
+        "p_unknown": 0.9997708201408386,
+        "p_silence": 0.0001703644375083968
+      },
+      "seed_2024": {
+        "p_marvin": 0.022194087505340576,
+        "p_unknown": 0.9770570993423462,
+        "p_silence": 0.0007487952243536711
+      }
+    },
+    {
+      "index": 31,
+      "filename": "usermarvin20260914_134716.wav",
+      "rms_energy": 0.022363072261214256,
+      "ensemble": {
+        "p_marvin": 0.21378129720687866,
+        "p_unknown": 0.785555899143219,
+        "p_silence": 0.0006627591792494059,
+        "predicted_label": "_unknown_",
+        "detected_tau_0_50": false,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_101": {
+        "p_marvin": 0.6272539496421814,
+        "p_unknown": 0.37130168080329895,
+        "p_silence": 0.001444319263100624,
+        "predicted_label": "marvin",
+        "detected_tau_0_50": true,
+        "detected_tau_0_80": false,
+        "detected_tau_0_95": false
+      },
+      "seed_42": {
+        "p_marvin": 0.001667351578362286,
+        "p_unknown": 0.9983086585998535,
+        "p_silence": 2.3988372049643658e-05
+      },
+      "seed_2024": {
+        "p_marvin": 0.012422542087733746,
+        "p_unknown": 0.9870575070381165,
+        "p_silence": 0.0005199698498472571
+      }
+    }
+  ]
+}

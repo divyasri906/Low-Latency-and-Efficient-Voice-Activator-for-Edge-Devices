@@ -1,0 +1,53 @@
+{
+  "parameters": {
+    "dscnn": 15121,
+    "tenet": 15120
+  },
+  "macs": {
+    "dscnn_macs": 6445000,
+    "tenet_macs": 288000,
+    "macs_ratio": 22.37847222222222
+  },
+  "accuracy": {
+    "dscnn_mean": 0.9474999999999999,
+    "dscnn_std": 0.007359800721939904,
+    "tenet_mean": 0.965,
+    "tenet_std": 0.002041241452319317
+  },
+  "mcnemar": {
+    "contingency_table": {
+      "both_correct_a": 372,
+      "model_b_only": 15,
+      "model_a_only": 11,
+      "both_wrong_d": 2
+    },
+    "chi2": 0.34615384615384615,
+    "p_value": 0.5562984612747348,
+    "statistically_significant": false
+  },
+  "latency_dscnn": {
+    "ingestion_ms": 0.0078156,
+    "feature_extraction_ms": 1.8434052,
+    "nn_forward_ms": 18.6362444,
+    "decision_ms": 0.0009477999999999999,
+    "sum_isolated_ms": 20.488412999999998,
+    "profiling_timer_overhead_ms": -0.6212165999999985,
+    "total_e2e_ms": 19.8671964,
+    "p95_e2e_ms": 21.85415,
+    "rtf": 0.019867196400000002,
+    "throughput_fps": 50.334228336314226
+  },
+  "latency_tenet": {
+    "ingestion_ms": 0.0086304,
+    "feature_extraction_ms": 0.6360321999999999,
+    "nn_forward_ms": 1.4073426,
+    "decision_ms": 0.006805399999999999,
+    "sum_isolated_ms": 2.0588106,
+    "profiling_timer_overhead_ms": -0.16456240000000008,
+    "total_e2e_ms": 1.8942482,
+    "p95_e2e_ms": 2.6288599999999995,
+    "rtf": 0.0018942482000000001,
+    "throughput_fps": 527.9139238458824
+  },
+  "speedup": 10.488169607340792
+}
