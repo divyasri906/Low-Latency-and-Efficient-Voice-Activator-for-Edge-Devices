@@ -18,7 +18,39 @@ tf.compat.v1.disable_eager_execution()
 
 import models
 from irdt.irdtv import irdtv_optimized
-from evaluate_optimized_w5 import load_split_data
+
+def load_split_data(dataset_path, split_file, w=5, chan_list=[1, 2, 4, 8, 16, 32], irdt_log=False):
+    paths, labels, words = [], [], []
+    with open(split_file, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            full_path = os.path.join(dataset_path, line)
+            paths.append(full_path)
+            word = line.replace("\\", "/").split("/")[0]
+            words.append(word)
+            if word == "marvin":
+                labels.append(0)
+            elif word == "_silence_":
+                labels.append(2)
+            else:
+                labels.append(1)
+
+    labels = np.array(labels, dtype=np.int64)
+    features = []
+    for p in paths:
+        with wave.open(p, "rb") as wf:
+            buf = wf.readframes(16000)
+            audio = np.frombuffer(buf, dtype=np.int16).astype(np.float32) / 32768.0
+        if len(audio) < 16000:
+            audio = np.pad(audio, (0, 16000 - len(audio)), mode="constant")
+        audio = audio[:16000]
+        _, feat = irdtv_optimized(audio, chan_list, 64, w, 24, irdt_log)
+        features.append(feat)
+
+    X = np.array(features, dtype=np.float32)
+    return X, labels, words, paths
 
 DATASET_PATH = r"C:\XboxGames\Dataset\speech_commands_v0.02"
 SPLIT_DIR = "configs/v1_irdt_hardneg"

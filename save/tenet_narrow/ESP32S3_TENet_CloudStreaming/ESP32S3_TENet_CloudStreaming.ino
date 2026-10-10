@@ -32,11 +32,15 @@
 // ============================================================
 #define TEST_MODE 0     // Set 0 for live KWS mic trigger; 1 for automated 100-run latency benchmark
 
-// WiFi & Cloud Server Configuration
-const char* WIFI_SSID     = "Redmi_12_5G";       // User WiFi SSID
-const char* WIFI_PASSWORD = "12345678";          // User WiFi Password
-const char* WS_SERVER_HOST = "10.106.74.127";    // Host PC IP address on Redmi_12_5G
-const int   WS_SERVER_PORT = 8765;
+// WiFi & Cloud Server Configuration (Configure in secrets.h or enter below)
+#if __has_include("secrets.h")
+#include "secrets.h"
+#else
+const char* WIFI_SSID     = "YOUR_WIFI_SSID";       // Set your WiFi SSID
+const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";   // Set your WiFi Password
+const char* WS_SERVER_HOST = "192.168.1.100";       // Cloud ASR Host IP
+const int   WS_SERVER_PORT = 8765;                  // Cloud ASR Port
+#endif
 
 // I2S Microphone Pins (INMP441: SCK=4, WS=5, SD=1)
 #define I2S_PORT             I2S_NUM_0

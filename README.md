@@ -253,8 +253,8 @@ The problem statement requires **$< 10\%$ CPU utilization** during continuous li
 | Operating Condition | Description & Voice Activity Ratio | Core 1 Load | Core 0 Load | **Total Chip Load** | **Headroom to 10% Limit** | Status |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
 | **1. True Idle Listening** | **Ambient room silence / VAD gated (0% speech)** | **0.60%** | **1.80%** | **1.20%** | **+8.80% margin** | **PASS** |
-| **2. Standby Listening** | **Typical ambient room (20% speech / 80% silence)** | **2.72%** | **2.00%** | **1.36%** | **+8.64% margin** | **PASS** |
-| **3. Conversational Listening**| **Active dialogue (50% speech / 50% silence)** | **5.91%** | **2.50%** | **2.96%** | **+7.04% margin** | **PASS** |
+| **2. Standby Listening** | **Typical ambient room (20% speech / 80% silence)** | **2.72%** | **0.00%** | **1.36%** | **+8.64% margin** | **PASS** |
+| **3. Conversational Listening**| **Active dialogue (50% speech / 50% silence)** | **5.91%** | **0.00%** | **2.96%** | **+7.04% margin** | **PASS** |
 | **4. Active Speech & Streaming**| **Continuous speech with Wi-Fi streaming (59% ITU-T)** | **15.32%** | **3.24%** | **9.28%** | **+0.72% margin** | **PASS** |
 | **5. Extreme Continuous Stress**| **100% non-stop voice audio (synthetic stress test)** | **15.32%** | **0.00%** | **7.66%** | **+2.34% margin** | **PASS** |
 

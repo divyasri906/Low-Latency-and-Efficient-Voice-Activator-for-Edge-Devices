@@ -1,0 +1,19 @@
+EDGEWAKE: Low Latency and Efficient Voice Activator for Edge Devices
+Copyright (c) 2026 MIGHT MATRIX (SIH26172)
+
+This project incorporates and builds upon components from the following open-source projects:
+
+1. TENet: Temporal Efficient Neural Network for Keyword Spotting
+   - Original Authors: Interlagos / Authors of TENet
+   - Repository: https://github.com/Interlagos/TENet-kws
+   - License: Apache License 2.0 / MIT
+
+2. Information-Preserving Raw Discrete Transform (iRDT)
+   - Original Author: Radu Dogaru (University Politehnica of Bucharest)
+   - Repository: https://github.com/radu-dogaru/rdt_transform_for_tiny_ml_signal_classifiers
+   - Paper: "A Raw Discrete Transform for TinyML Audio Feature Extraction"
+   - License: MIT License
+
+3. ARM ML-KWS (Keywords Spotting for Microcontrollers)
+   - Repository: https://github.com/ARM-software/ML-KWS-for-mcu
+   - License: Apache License 2.0
