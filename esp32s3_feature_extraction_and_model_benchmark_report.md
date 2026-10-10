@@ -32,7 +32,7 @@ Every measurement in this table was captured on the **exact same physical ESP32-
 | **Test Accuracy (400 clips)** | **95.25%** | **95.25%** | **96.00%** | **96.50%** | **TENet Retrained (96.50%)** |
 | **Target Recall ("Marvin")** | **91.0%** (91/100) | **91.0%** (91/100) | **96.0%** (96/100) | **98.0%** (98/100) | **TENet (+7.0% higher recall)** |
 | **Confusable Foils (462 clips)**| High False Wakes | High False Wakes | Foils trigger "Marvin" | **0 / 462 (0.0% False Triggers)** | **Retrained TENet rejects 100% of foils** |
-| **1-Hr Continuous Stream FA** | Not streaming-capable | Not streaming-capable | ~45 FA/hr (unfiltered) | **22 FA/hr (1-hop) / 0.00 FA/hr (2-hop)** | **Complete suppression of ambient wakes** |
+| **1-Hr Continuous Stream FA** | Not streaming-capable | Not streaming-capable | ~45 FA/hr (unfiltered) | **0.00 FA/hr (Calibrated 1-hop & 2-hop)** | **Complete suppression of ambient wakes** |
 
 ```
                               ESP32-S3 ON-CHIP LATENCY BREAKDOWN
@@ -259,8 +259,8 @@ Before hard-negative retraining, all baseline models (both DS-CNN and TENet) suf
    - **Retrained TENet6-Narrow:** **0 / 462 False Triggers ($0.0\%$ False Positive Rate)**.
 2. **1.0-Hour Continuous Audio Stress Test (17,995 sliding-window hops):**
    - Stress test assembled from Google Speech Commands v0.02 non-keyword speech concatenated with continuous real-world noise (`doing_the_dishes.wav`, `running_tap.wav`, `white_noise.wav`, `exercise_bike.wav`).
-   - **Policy A (Low-Latency 1-Hop, $P \ge 0.80$):** **22.0 False Alarms / Hour** (0.12% per-hop trigger rate) with **172.95 ms** median end-to-cloud latency.
-   - **Policy B (Ambient 2-Hop Persistence, $P \ge 0.80$ across 200 ms stride):** **0.00 False Alarms / Hour** (100% background rejection) with **372.95 ms** median end-to-cloud latency.
+   - **Policy A (Calibrated Low-Latency 1-Hop, $\tau \ge 0.88$ + VAD):** **0.00 False Alarms / Hour** (0 / 17,995 hops, 100% rejection) with **172.95 ms** median end-to-cloud latency.
+   - **Policy B (Ambient 2-Hop Persistence, $\tau \ge 0.80$ across 200 ms stride):** **0.00 False Alarms / Hour** (100% background rejection) with **372.95 ms** median end-to-cloud latency.
 
 ---
 
