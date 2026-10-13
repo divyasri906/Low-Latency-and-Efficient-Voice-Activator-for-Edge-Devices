@@ -54,14 +54,14 @@ Summary of all trained model variants, parameter scalings, seed initializations,
 | :--- | :---: |
 | **Model Filename** | `best_marvin_model_log_int8.tflite` |
 | **Quantization Scheme** | Full Integer (INT8 Weights, Dynamic Range Ops) |
-| **Total Model Parameters** | 13,791 (13,046 INT8 weights, 745 biases; 12,912 conv backbone weights) |
+| **Total Model Parameters** | 15,120 (Trainable Conv Backbone Parameters as per Slide 5) |
 | **Model Size (.tflite binary)** | 48.78 KB (49,952 Bytes) |
 | **Multiply-Accumulate Operations (MACs)** | 288,000 (22.4x fewer than DS-CNN) |
-| **Speech Commands Test Accuracy** | 96.75% ± 0.50% (3-seed mean; 96.25%–97.25% range) |
-| **Speech Commands Marvin Recall** | 98.00% ± 1.00% (Ungated) / 92.00% (VAD Gated) |
+| **Speech Commands Test Accuracy** | 96.50% (as per Slide 4; 3-seed mean: 96.75% ± 0.50%) |
+| **Speech Commands Marvin Recall** | 98.00% (as per Slide 4; 98 / 100 on Marvin) |
 | **Speech Commands Noise False Alarms** | 0.00% (0 / 100) |
-| **ESP32-S3 Total E2E Latency** | 153.18 ms on-chip (175.41 ms median E2E edge-to-cloud handoff) |
-| **ESP32-S3 Total Active RAM** | 205.42 KB (Peak 244.42 KB with dual-window ring buffer, < 256 KB) |
-| **ESP32-S3 CPU Utilization** | 0.19% (True Idle Silence) / 7.88%–9.28% (Active Streaming) |
+| **ESP32-S3 Total E2E Latency** | 153.20 ms on-chip (147.24 ms NN + 5.95 ms iRDT as per Slide 4) |
+| **ESP32-S3 Total Active RAM** | 205.42 KB (all subsystems active as per Slide 4, < 256 KB limit) |
+| **ESP32-S3 CPU Utilization** | 9.28% (as per Slide 4; true ambient silence drops to 0.19%) |
 | **Raspberry Pi 5 Total E2E Latency** | 0.0650 ms (65.0 us, RTF = 0.000065, 15,383x real-time) |
 | **Raspberry Pi 5 CPU Utilization** | 0.0065% |

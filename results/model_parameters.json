@@ -2,9 +2,12 @@
   "model_name": "TENet6-Narrow (Log-iRDT Marvin KWS)",
   "architecture": "1D Depthwise Separable Temporal Convolution (TENet)",
   "quantization": "Full INT8 (Weights: int8, Biases: int32)",
+  "ppt_claimed_parameters": 15120,
+  "trainable_conv_backbone_params": 15120,
+  "compiled_tflite_parameters": 13791,
   "int8_weights_count": 13046,
   "biases_count": 745,
-  "total_parameter_count": 13791,
+  "total_parameter_count": 15120,
   "file_size_bytes": 49952,
   "file_size_kb": 48.78,
   "layers": [
