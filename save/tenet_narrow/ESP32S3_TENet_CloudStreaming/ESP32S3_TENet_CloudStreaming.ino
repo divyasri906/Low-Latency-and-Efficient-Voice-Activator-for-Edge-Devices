@@ -54,6 +54,19 @@ const int   WS_SERVER_PORT = 8765;                  // Cloud ASR Port
 #define ADPCM_PAYLOAD_BYTES  160      // 320 nibbles = 160 bytes
 #define ADPCM_PACKET_BYTES   164      // 4 bytes header + 160 bytes payload
 
+#define KWS_THRESHOLD        0.70f    // Calibrated production decision threshold
+#define VAD_ENERGY_THRESHOLD 400.0f   // RMS energy threshold for VAD gating
+#define MAX_STREAMING_MS     3000     // Maximum post-keyword streaming duration (3.0s)
+#define SILENCE_TIMEOUT_MS   500      // Trailing silence timeout to close stream (500 ms)
+
+enum PipelineState {
+    STATE_LISTENING = 0,
+    STATE_STREAMING = 1
+};
+static PipelineState g_pipeline_state = STATE_LISTENING;
+static uint32_t g_streaming_start_ms = 0;
+static uint32_t g_last_speech_ms = 0;
+
 // ============================================================
 // IMA ADPCM Tables & State
 // ============================================================
@@ -277,6 +290,39 @@ bool init_kws() {
 }
 
 void runKWS() {
+    if (g_pipeline_state == STATE_STREAMING) {
+        // STATE 1: Continuous post-keyword audio streaming (20ms frames)
+        int16_t stream_buf[ADPCM_FRAME_SAMPLES];
+        size_t bytes_read = 0;
+        i2s_read(I2S_PORT, stream_buf, sizeof(stream_buf), &bytes_read, pdMS_TO_TICKS(50));
+        if (bytes_read == sizeof(stream_buf)) {
+            // Energy check to detect speech activity
+            int64_t sum_sq = 0;
+            for (int i = 0; i < ADPCM_FRAME_SAMPLES; ++i) {
+                sum_sq += (int32_t)stream_buf[i] * (int32_t)stream_buf[i];
+            }
+            float frame_rms = sqrtf((float)sum_sq / (float)ADPCM_FRAME_SAMPLES);
+            if (frame_rms >= 300.0f) {
+                g_last_speech_ms = millis();
+            }
+
+            // Encode 20ms audio frame to IMA ADPCM (164 bytes)
+            encode_adpcm_frame(stream_buf, g_adpcm_packet);
+            ws.sendBIN(g_adpcm_packet, ADPCM_PACKET_BYTES);
+
+            // Check completion conditions (trailing silence or max timeout)
+            uint32_t now = millis();
+            if ((now - g_last_speech_ms >= SILENCE_TIMEOUT_MS) || (now - g_streaming_start_ms >= MAX_STREAMING_MS)) {
+                ws.sendTXT("EOS");
+                Serial.printf("[STREAM] Handoff complete (Streamed %u ms) -> Resuming STATE_LISTENING\n",
+                              now - g_streaming_start_ms);
+                g_pipeline_state = STATE_LISTENING;
+            }
+        }
+        return;
+    }
+
+    // STATE 0: Low-power continuous listening & wake word detection
     static int16_t hop_buffer[HOP_SAMPLES];
     size_t bytes_read = 0;
     i2s_read(I2S_PORT, hop_buffer, sizeof(hop_buffer), &bytes_read, pdMS_TO_TICKS(100));
@@ -299,7 +345,7 @@ void runKWS() {
         g_ring_write_idx = (g_ring_write_idx + HOP_SAMPLES) % AUDIO_WINDOW_SAMPLES;
 
         // VAD Energy Gating
-        if (rms >= 400.0f) {
+        if (rms >= VAD_ENERGY_THRESHOLD) {
             int64_t t0 = esp_timer_get_time();
 
             for (int i = 0; i < AUDIO_WINDOW_SAMPLES; ++i) {
@@ -319,19 +365,24 @@ void runKWS() {
             float p_unk    = g_output_tensor->data.f[1];
             float p_sil    = g_output_tensor->data.f[2];
 
-            if (p_marvin >= 0.70f && !g_waiting_ack) {
+            if (p_marvin >= KWS_THRESHOLD && !g_waiting_ack) {
                 g_session_counter++;
                 g_t_detect_us = t1;
                 Serial.printf("\n>>> [KEYWORD DETECTED] 'MARVIN' (Confidence: %5.1f%%, Det: %.2f ms) <<<\n",
                               p_marvin * 100.0f, g_measured_det_ms);
 
-                // Encode 20ms audio frame to IMA ADPCM (164 bytes)
+                // Encode 20ms pre-roll audio frame to IMA ADPCM (164 bytes)
                 encode_adpcm_frame(&hop_buffer[HOP_SAMPLES - ADPCM_FRAME_SAMPLES], g_adpcm_packet);
 
                 // Send first byte immediately over pre-opened WebSocket
                 g_t_first_byte_us = esp_timer_get_time();
                 g_waiting_ack = true;
                 ws.sendBIN(g_adpcm_packet, ADPCM_PACKET_BYTES);
+
+                // Transition to continuous streaming state
+                g_pipeline_state = STATE_STREAMING;
+                g_streaming_start_ms = millis();
+                g_last_speech_ms = millis();
             } else {
                 const char* top_label = (p_marvin > p_unk && p_marvin > p_sil) ? "MARVIN" : (p_unk > p_sil ? "UNKNOWN" : "SILENCE");
                 Serial.printf("[Live Mic] RMS: %4.0f -> %-7s (P: Marvin=%.1f%%, Unk=%.1f%%, Sil=%.1f%%)\n",

@@ -224,7 +224,7 @@ def evaluate_test_split():
 
 def evaluate_all_foils():
     print("\n" + "=" * 80)
-    print("STEP 4: EVALUATING RE-TRAINED INT8 MODEL ON ALL 462 FOILS")
+    print("STEP 4: EVALUATING RE-TRAINED INT8 MODEL ON 50 HELD-OUT TEST FOILS")
     print("=" * 80)
 
     tflite_path = "best_marvin_model_log_int8.tflite"
@@ -233,18 +233,23 @@ def evaluate_all_foils():
     inp_idx = interp.get_input_details()[0]['index']
     out_idx = interp.get_output_details()[0]['index']
 
-    files = sorted(glob.glob(os.path.join(DATASET_PATH, "hard_negatives", "*.wav")))
-    print(f"Evaluating {len(files)} hard-negative clips...")
+    test_split_file = os.path.join(SPLIT_DIR, "test.txt")
+    with open(test_split_file, "r") as f:
+        test_lines = [l.strip() for l in f if l.strip()]
+
+    test_foils = [l for l in test_lines if "hard_negatives" in l]
+    print(f"Evaluating {len(test_foils)} held-out test hard-negative clips from {test_split_file}...")
 
     results_by_word = {}
-    false_alarms_50 = 0
-    false_alarms_80 = 0
+    false_alarms = 0
+    results_list = []
 
-    for fpath in files:
+    for rel_path in test_foils:
+        fpath = os.path.join(DATASET_PATH, rel_path)
         fname = os.path.basename(fpath)
         word = fname.split('_')[0]
         if word not in results_by_word:
-            results_by_word[word] = {'total': 0, 'pred_marvin': 0, 'pred_unknown': 0, 'pred_silence': 0, 'probs_m': []}
+            results_by_word[word] = {'total': 0, 'pred_marvin': 0, 'pred_unknown': 0, 'probs_m': []}
 
         with wave.open(fpath, 'rb') as wf:
             buf = wf.readframes(wf.getnframes())
@@ -254,44 +259,56 @@ def evaluate_all_foils():
         interp.invoke()
         probs = interp.get_tensor(out_idx)[0]
 
-        p_m, p_u, p_s = float(probs[0]), float(probs[1]), float(probs[2])
-        pred = np.argmax(probs)
+        p_m = float(probs[0])
+        pred = int(np.argmax(probs))
 
         results_by_word[word]['total'] += 1
         results_by_word[word]['probs_m'].append(p_m)
-        if pred == 0:
+        is_trigger = (pred == 0 or p_m >= 0.70)
+        if is_trigger:
             results_by_word[word]['pred_marvin'] += 1
-            false_alarms_50 += 1
-        elif pred == 1:
-            results_by_word[word]['pred_unknown'] += 1
+            false_alarms += 1
         else:
-            results_by_word[word]['pred_silence'] += 1
+            results_by_word[word]['pred_unknown'] += 1
 
-        if p_m >= 0.80:
-            false_alarms_80 += 1
+        results_list.append({
+            'file': rel_path,
+            'word': word,
+            'p_marvin': round(p_m, 4),
+            'pred': pred,
+            'triggered': is_trigger
+        })
 
-    fa_pct_50 = false_alarms_50 / len(files) * 100.0
-    fa_pct_80 = false_alarms_80 / len(files) * 100.0
+    fa_pct = (false_alarms / len(test_foils)) * 100.0 if len(test_foils) > 0 else 0.0
 
     print("=" * 80)
-    print(f"RETRAINED INT8 MODEL RESULTS ON 462 FOILS:")
-    print(f"Overall False Trigger Rate (tau=0.50): {false_alarms_50}/{len(files)} ({fa_pct_50:.2f}%)")
-    print(f"Overall False Trigger Rate (tau=0.80): {false_alarms_80}/{len(files)} ({fa_pct_80:.2f}%)")
+    print(f"HELD-OUT TEST FOILS RESULTS ({len(test_foils)} CLIPS):")
+    print(f"Overall False Trigger Rate (tau=0.70): {false_alarms}/{len(test_foils)} ({fa_pct:.2f}%)")
     print("-" * 80)
-    print(f"{'Word':<12} | {'Total':<6} | {'False Trigger (Marvin)':<24} | {'Correct (Unknown)':<18} | {'Avg P(Marvin)':<14}")
+    print(f"{'Word':<12} | {'Total':<6} | {'False Trigger':<16} | {'Correct (Unknown)':<18} | {'Avg P(Marvin)':<14}")
     print("-" * 80)
     for word, data in sorted(results_by_word.items()):
-        fa_pct = data['pred_marvin'] / data['total'] * 100.0
-        unk_pct = data['pred_unknown'] / data['total'] * 100.0
+        w_fa = data['pred_marvin'] / data['total'] * 100.0
+        w_unk = data['pred_unknown'] / data['total'] * 100.0
         avg_pm = np.mean(data['probs_m']) * 100.0
-        print(f"{word:<12} | {data['total']:6d} | {data['pred_marvin']:3d} ({fa_pct:5.1f}%)               | {data['pred_unknown']:3d} ({unk_pct:5.1f}%)           | {avg_pm:5.2f}%")
+        print(f"{word:<12} | {data['total']:6d} | {data['pred_marvin']:3d} ({w_fa:5.1f}%)        | {data['pred_unknown']:3d} ({w_unk:5.1f}%)           | {avg_pm:5.2f}%")
     print("=" * 80)
 
+    os.makedirs("results", exist_ok=True)
+    summary = {
+        "total_test_foils": len(test_foils),
+        "false_alarms": false_alarms,
+        "false_alarm_rate_pct": round(fa_pct, 2),
+        "threshold": 0.70,
+        "results": results_list
+    }
+    with open("results/test_foils_evaluation.json", "w") as f:
+        json.dump(summary, f, indent=2)
+
     return {
-        "false_alarms_50": false_alarms_50,
-        "false_alarms_80": false_alarms_80,
-        "fa_pct_50": fa_pct_50,
-        "fa_pct_80": fa_pct_80,
+        "false_alarms": false_alarms,
+        "fa_pct": fa_pct,
+        "total_test_foils": len(test_foils),
         "results_by_word": results_by_word
     }
 

@@ -113,6 +113,8 @@ class CloudASRServer:
                         await websocket.send("PONG")
                     elif message.startswith("TRIGGER"):
                         print(f"  [SERVER] Detection trigger event acknowledged from client.")
+                    elif message.startswith("EOS"):
+                        print(f"  [SERVER] End-of-Stream received from client (Utterance completed).")
 
                 elif isinstance(message, bytes):
                     # Binary audio frame (20ms IMA ADPCM = 164 bytes)

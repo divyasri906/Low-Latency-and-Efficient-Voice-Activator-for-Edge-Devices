@@ -1,0 +1,359 @@
+{
+  "total_test_foils": 50,
+  "false_alarms": 0,
+  "false_alarm_rate_pct": 0.0,
+  "threshold": 0.7,
+  "test_foils_manifest": "configs/v1_irdt_hardneg/test.txt",
+  "results": [
+    {
+      "file": "hard_negatives/garden_SoniaNeural_p10_0119.wav",
+      "word": "garden",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/morning_AriaNeural_p10_0404.wav",
+      "word": "morning",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/carbon_EricNeural_p10_0179.wav",
+      "word": "carbon",
+      "p_marvin": 0.0117,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_RyanNeural_m10_0081.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/pardon_AriaNeural_m10_0138.wav",
+      "word": "pardon",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/market_NatashaNeural_m10_0294.wav",
+      "word": "market",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_JennyNeural_m10_0069.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/mining_NatashaNeural_m10_0459.wav",
+      "word": "mining",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marvel_AriaNeural_p10_0305.wav",
+      "word": "marvel",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/martin_AriaNeural_p10_0041.wav",
+      "word": "martin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/garden_SoniaNeural_p0_0118.wav",
+      "word": "garden",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/garden_PrabhatNeural_p0_0121.wav",
+      "word": "garden",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_WilliamNeural_m10_0357.wav",
+      "word": "marble",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_NatashaNeural_p10_0098.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marvel_RyanNeural_m10_0312.wav",
+      "word": "marvel",
+      "p_marvin": 0.0078,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marvel_WilliamNeural_p10_0326.wav",
+      "word": "marvel",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_GuyNeural_p10_0068.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/market_PrabhatNeural_p0_0286.wav",
+      "word": "market",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/markup_GuyNeural_m10_0363.wav",
+      "word": "markup",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_AriaNeural_m10_0072.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/morning_AriaNeural_p0_0403.wav",
+      "word": "morning",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_PrabhatNeural_m10_0087.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/markup_JennyNeural_m10_0366.wav",
+      "word": "markup",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/morning_SoniaNeural_p10_0416.wav",
+      "word": "morning",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/morgan_PrabhatNeural_m10_0252.wav",
+      "word": "morgan",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/markup_JennyNeural_p10_0368.wav",
+      "word": "markup",
+      "p_marvin": 0.0078,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_SoniaNeural_p0_0349.wav",
+      "word": "marble",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/pardon_JennyNeural_m10_0135.wav",
+      "word": "pardon",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_JennyNeural_p0_0070.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_PrabhatNeural_p10_0089.wav",
+      "word": "margin",
+      "p_marvin": 0.0078,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/carbon_SoniaNeural_p0_0184.wav",
+      "word": "carbon",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_GuyNeural_p0_0331.wav",
+      "word": "marble",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/pardon_GuyNeural_m10_0132.wav",
+      "word": "pardon",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_PrabhatNeural_p0_0088.wav",
+      "word": "margin",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/market_JennyNeural_p0_0268.wav",
+      "word": "market",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/garden_GuyNeural_p10_0101.wav",
+      "word": "garden",
+      "p_marvin": 0.0078,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/margin_SoniaNeural_p0_0085.wav",
+      "word": "margin",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/carbon_RyanNeural_p10_0182.wav",
+      "word": "carbon",
+      "p_marvin": 0.0156,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/morning_NeerjaNeural_p10_0422.wav",
+      "word": "morning",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/pardon_NatashaNeural_p10_0164.wav",
+      "word": "pardon",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_PrabhatNeural_m10_0351.wav",
+      "word": "marble",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/carbon_ChristopherNeural_p0_0175.wav",
+      "word": "carbon",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/market_GuyNeural_p0_0265.wav",
+      "word": "market",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/bargain_AriaNeural_p10_0008.wav",
+      "word": "bargain",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/garden_GuyNeural_p0_0100.wav",
+      "word": "garden",
+      "p_marvin": 0.0078,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_EricNeural_p0_0343.wav",
+      "word": "marble",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/marble_AriaNeural_p0_0337.wav",
+      "word": "marble",
+      "p_marvin": 0.0,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/bargain_ChristopherNeural_p0_0010.wav",
+      "word": "bargain",
+      "p_marvin": 0.0586,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/bargain_EricNeural_p0_0013.wav",
+      "word": "bargain",
+      "p_marvin": 0.0312,
+      "pred": 1,
+      "triggered": false
+    },
+    {
+      "file": "hard_negatives/garden_SoniaNeural_m10_0117.wav",
+      "word": "garden",
+      "p_marvin": 0.0039,
+      "pred": 1,
+      "triggered": false
+    }
+  ]
+}

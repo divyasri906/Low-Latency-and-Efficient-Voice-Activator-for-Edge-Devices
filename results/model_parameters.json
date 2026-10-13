@@ -1,0 +1,557 @@
+{
+  "model_name": "TENet6-Narrow (Log-iRDT Marvin KWS)",
+  "architecture": "1D Depthwise Separable Temporal Convolution (TENet)",
+  "quantization": "Full INT8 (Weights: int8, Biases: int32)",
+  "int8_weights_count": 13046,
+  "biases_count": 745,
+  "total_parameter_count": 13791,
+  "file_size_bytes": 49952,
+  "file_size_kb": 48.78,
+  "layers": [
+    {
+      "tensor_name": "arith.constant",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        4
+      ],
+      "param_count": 4
+    },
+    {
+      "tensor_name": "arith.constant1",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        2
+      ],
+      "param_count": 2
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        3
+      ],
+      "param_count": 3
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst1",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        3,
+        1,
+        1,
+        16
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst2",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst3",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst4",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst5",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst6",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst7",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst8",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst9",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst10",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst11",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst12",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst13",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst14",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst15",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        16
+      ],
+      "param_count": 256
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst16",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst17",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst18",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst19",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst20",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst21",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst22",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst23",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst24",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst25",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst26",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst27",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst28",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst29",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        16
+      ],
+      "param_count": 256
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst30",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst31",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst32",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst33",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst34",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst35",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst36",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst37",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        48
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst38",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst39",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        9,
+        1,
+        48
+      ],
+      "param_count": 432
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst40",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        48
+      ],
+      "param_count": 48
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst41",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        48,
+        1,
+        1,
+        16
+      ],
+      "param_count": 768
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst42",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst43",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        1,
+        1,
+        16
+      ],
+      "param_count": 256
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst44",
+      "type": "bias",
+      "dtype": "int32",
+      "shape": [
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "tfl.pseudo_qconst45",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        16,
+        3,
+        1,
+        6
+      ],
+      "param_count": 288
+    },
+    {
+      "tensor_name": "TENet6Narrow/block2/add_1",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        7,
+        1,
+        16
+      ],
+      "param_count": 112
+    },
+    {
+      "tensor_name": "TENet6Narrow/avg_pool/AvgPool",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        1,
+        1,
+        16
+      ],
+      "param_count": 16
+    },
+    {
+      "tensor_name": "TENet6Narrow/squeeze_logit",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        3
+      ],
+      "param_count": 3
+    },
+    {
+      "tensor_name": "output_probs1",
+      "type": "weight",
+      "dtype": "int8",
+      "shape": [
+        1,
+        3
+      ],
+      "param_count": 3
+    }
+  ]
+}

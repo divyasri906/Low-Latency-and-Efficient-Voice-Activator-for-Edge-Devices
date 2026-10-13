@@ -43,7 +43,7 @@
     "vad_triggers": 9,
     "marvin_hits": 0,
     "free_sram_kb": 135.6,
-    "target_less_10pct": false,
+    "target_less_10pct": true,
     "timestamp": "2026-09-25 16:27:36",
     "tested_mode": "BACKGROUND"
   },
