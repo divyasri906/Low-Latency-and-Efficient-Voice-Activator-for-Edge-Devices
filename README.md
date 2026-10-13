@@ -23,7 +23,7 @@
 
 1. **Ultra-Low Compute Footprint:** Replaces traditional floating-point FFT/MFCC algorithms with an integer reaction-diffusion reservoir recurrence (**Log-iRDT**), cutting front-end feature extraction time to **$5.95\text{ ms}$** ($7.45\times$ faster than MFCC).
 2. **Compact 1D Temporal Neural Classifier:** Employs **TENet6-Narrow** (13,791 total parameters: 13,046 INT8 weights, 745 biases, 48.78 KB Flash footprint) executing on-chip inference in **$147.24\text{ ms}$** on ESP32-S3 and **$0.0272\text{ ms}$** on Raspberry Pi 5.
-3. **Continuous-Listening CPU Compliance:** Dual-core idle listening load is **$0.19\%$** (Core 0: 0.38%, Core 1: 0.00% with FreeRTOS idle counters). Under real-world conversational speech (10% speech factor), dual-core load averages **$4.03\%$**, remaining strictly below the mandatory **$< 10\%$ CPU ceiling**.
+3. **Continuous-Listening CPU Compliance:** Dual-core idle listening load is **0.19%** (Core 0: 0.38%, Core 1: 0.00% with FreeRTOS idle counters). Under real-world conversational speech (10% speech factor), dual-core load averages **4.03%**, remaining strictly below the mandatory **< 10% CPU ceiling**.
 4. **Strict SRAM Budget Compliance:** Consumes **$205.42\text{ KB}$** in base operation (**$244.42\text{ KB}$** peak during concurrent dual-window ring buffering, DMA, Wi-Fi MAC/PHY, and WebSocket sockets), leaving verified headroom below the **$< 256\text{ KB}$ internal SRAM constraint** with **zero external PSRAM**.
 5. **Instantaneous Cloud Handoff:** Pre-opened WebSocket socket and 4:1 IMA ADPCM compression ($64\text{ kbps}$) eliminate TCP/TLS handshake lag, achieving an empirical median end-to-end handoff latency of **$175.41\text{ ms}$** (Mean: $200.92\text{ ms}$, P95: $288.42\text{ ms}$). Including average hop synchronization wait (100 ms), acoustic keyword offset to cloud arrival is **$275.41\text{ ms}$**.
 6. **Zero False-Alarm Reliability:** Achieves **0 / 50 false activations (0.00% FPR)** on strictly held-out phonetic test foils (`configs/v1_irdt_hardneg/test.txt`), **0 / 462 false triggers** across the full confusable foil vocabulary, and **0.00 FA/hr** across a continuous 1-hour stress stream (17,995 hops) at operating threshold $\tau = 0.70$.
@@ -63,12 +63,12 @@ This matrix provides direct, unassailable empirical and register-level evidence 
 | **1** | **5.95 ms feature extraction, 147.24 ms inference** | **VERIFIED (10/10)** | Measured on physical ESP32-S3 (Xtensa LX7 @ 240 MHz). Total on-chip time is **$153.20\text{ ms}$** ($\text{RTF} = 0.1532$, $6.52\times$ faster than 1.0s audio window). | [`results/esp32s3_20runs_stats.json`](./results/esp32s3_20runs_stats.json) |
 | **2** | **ADPCM 4:1, pre-opened WebSocket, ring buffer, VAD gate** | **VERIFIED (10/10)** | Dual-core DMA circular buffer (32 KB), RMS energy gate (`RMS >= 400`), 4:1 IMA ADPCM compression ($256\text{ kbps} \to 64\text{ kbps}$), pre-opened TCP socket eliminating 300–500 ms handshake lag. | [`save/tenet_narrow/ESP32S3_TENet_CloudStreaming/ESP32S3_TENet_CloudStreaming.ino`](./save/tenet_narrow/ESP32S3_TENet_CloudStreaming/ESP32S3_TENet_CloudStreaming.ino) |
 | **3** | **INT8 model on ESP32-S3, ~35 KB weights, keyword "Marvin"** | **VERIFIED (10/10)** | Quantized tensor weights occupy **$35.2\text{ KB}$** ($35,188\text{ bytes}$). Total flatbuffer with TFLite operator schemas & metadata is **$48.78\text{ KB}$** (49,952 bytes). Fits in < 1.3% of 4MB Flash. | [`best_marvin_model_log_int8.tflite`](./best_marvin_model_log_int8.tflite) |
-| **4** | **96.50% test accuracy, 98.0% keyword recall** | **VERIFIED (10/10)** | Seed 42 primary deployed model achieves **96.50% test accuracy** and **98.0% recall** on `"Marvin"`. Across 3 random seeds (42, 101, 2024), ensemble mean is **$96.75\% \pm 0.50\%$ accuracy** and **$98.0\% \pm 1.0\%$ recall**. Under hardware VAD energy gate, gated recall is **92.0%**. Real physical mic recall is **85.19%** ($N=27$). | [`results/README_ALL_MODELS_BENCHMARK.md`](./results/README_ALL_MODELS_BENCHMARK.md) & [`main.py`](./main.py) |
+| **4** | **96.50% test accuracy, 98.0% keyword recall** | **VERIFIED (10/10)** | Seed 42 primary deployed model achieves **96.50% test accuracy** and **98.0% recall** on `"Marvin"`. Across 3 random seeds (42, 101, 2024), ensemble mean is **96.75% ± 0.50% accuracy** and **98.0% ± 1.0% recall**. Under hardware VAD energy gate, gated recall is **92.0%**. Real physical mic recall is **85.19%** ($N=27$). | [`results/README_ALL_MODELS_BENCHMARK.md`](./results/README_ALL_MODELS_BENCHMARK.md) & [`main.py`](./main.py) |
 | **5** | **205.42 KB combined internal RAM** | **VERIFIED (10/10)** | Hardware register readout (`heap_caps_get_free_size(MALLOC_CAP_INTERNAL)`). 205.42 KB base / 244.42 KB peak with dual 32 KB window buffers, I2S DMA, Wi-Fi MAC/PHY, WebSockets, FreeRTOS. Strictly below 256 KB. | Section 5 register dump & [`reproduce_isro_benchmarks.py`](./reproduce_isro_benchmarks.py) |
 | **6** | **Audio streamed to cloud after keyword** | **VERIFIED (10/10)** | Dual-phase state machine: immediately dispatches pre-roll wake frame within **$0.08\text{ ms}$**, then continuously streams sequential 20 ms ADPCM audio chunks (164 bytes / 20 ms) until speech termination. | [`cloud_asr_server.py`](./cloud_asr_server.py) & [Streaming State Machine](#7-post-detection-audio-streaming-state-machine--cloud-handoff) |
 | **7** | **0 / 462 confusable false triggers** | **VERIFIED (10/10)** | **Held-out test split:** 0 / 50 false triggers (**0.00% FPR**) on novel unseen voices (`configs/v1_irdt_hardneg/test.txt`). **Full vocabulary benchmark:** 0 / 462 false triggers (**0.00% FPR**) across all 14 phonetically confusable word families. | [`results/test_foils_evaluation.json`](./results/test_foils_evaluation.json) & [`configs/v1_irdt_hardneg/test.txt`](./configs/v1_irdt_hardneg/test.txt) |
 | **8** | **End-to-end latency: keyword end → cloud ASR (175.41 ms median)** | **VERIFIED (10/10)** | Formulated as: **Total Latency** = **Inference** (152.81 ms) + **Framing Prep** (0.08 ms) + **Wi-Fi Transit (RTT / 2)** (22.61 ms) = **175.41 ms median** (Mean: 200.92 ms, P95: 288.42 ms) across 234 physical runs to local edge server. Total acoustic handoff including average 100 ms hop wait is **275.41 ms**. | [`results/cloud_asr_latency_log.csv`](./results/cloud_asr_latency_log.csv) & [`results/latency_benchmark_summary.json`](./results/latency_benchmark_summary.json) |
-| **9** | **0.00 FA/hr over 1-hour continuous stream** | **VERIFIED (10/10)** | Evaluated over 3,600s continuous stream (17,995 sliding-window hops at 200 ms stride). Operating threshold $\tau = 0.70$ + RMS 400 gate suppresses all 17,995 noise hops (**$0 / 17,995 = \mathbf{0.00\text{ FA/hr}}$**; upper 95% Poisson bound $\le 3.0\text{ FA/hr}$). | [Continuous Stream Evaluation](#2-multi-hour-false-alarm-suppression--17995-hop-evaluation-000-fahr) |
+| **9** | **0.00 FA/hr over 1-hour continuous stream** | **VERIFIED (10/10)** | Evaluated over 3,600s continuous stream (17,995 sliding-window hops at 200 ms stride). Operating threshold $\tau = 0.70$ + RMS 400 gate suppresses all 17,995 noise hops (**0 / 17,995 = 0.00 FA/hr**; upper 95% Poisson bound $\le 3.0\text{ FA/hr}$). | [Continuous Stream Evaluation](#2-multi-hour-false-alarm-suppression--17995-hop-evaluation-000-fahr) |
 | **10** | **13,791 parameters (Slide 5: 15,120 conv)** | **VERIFIED (10/10)** | Exact flatbuffer contains **13,046 INT8 weights** (12,912 convolutional backbone weights) + **745 int32 biases** = **13,791 parameters** (48.78 KB binary). In uncompressed Keras checkpoint, conv weights total 15,120. | [`results/model_parameters.json`](./results/model_parameters.json) & [`models.py`](./models.py) |
 | **11** | **0.19% Idle CPU (Slide 4 Headline: 1.20% / 9.28% Peak)** | **VERIFIED (10/10)** | **True baseline idle listening is 0.19% dual-core load** (**9.81% headroom below the 10% limit**). 9.28% represents peak dual-core load during concurrent active speech processing and Wi-Fi streaming. | [`results/esp32s3_realtime_energy_gated_benchmark.json`](./results/esp32s3_realtime_energy_gated_benchmark.json) |
 
@@ -87,7 +87,7 @@ This matrix provides direct, unassailable empirical and register-level evidence 
 | Mandatory Evaluation Constraint | Required Boundary | EDGEWAKE (Team MIGHT MATRIX) Verified Result | Margin / Compliance Status |
 | :--- | :--- | :--- | :--- |
 | **RAM Footprint** | Strictly **$< 256\text{ KB}$** Internal RAM | **$205.42\text{ KB}$** base / **$244.42\text{ KB}$** peak SRAM (All subsystems active) | **PASS (+11.58 KB to +50.58 KB safety margin)** |
-| **Continuous Listening CPU** | Strictly **$< 10\%$** continuous CPU load | **$0.19\%$ (True Idle)** \| **$4.03\%$ (Conversational Speech)** \| **$9.28\%$ (Peak Stream)** | **PASS (+0.72% to +9.81% headroom below 10%)** |
+| **Continuous Listening CPU** | Strictly **< 10%** continuous CPU load | **0.19% (True Idle)** \| **4.03% (Conversational Speech)** \| **9.28% (Peak Stream)** | **PASS (+0.72% to +9.81% headroom below 10%)** |
 | **Open-Source Only** | No closed commercial SDKs (Picovoice, Snowboy) | 100% open-source: TensorFlow Lite Micro, LiteRT, custom C DSP | **PASS (100% transparent, Apache 2.0 / MIT)** |
 | **Custom Keyword** | No generic global wake words ("Alexa", "Siri") | Custom keyword: **`"Marvin"`** with 462 confusable foil negatives | **PASS (Hard-negative phonetically tuned)** |
 | **Hardware Deployment** | Physical validation on low-power devices | Fully deployed on **ESP32-S3** MCU and **Raspberry Pi 5** SBC | **PASS (Measured with physical INMP441 I2S mic)** |
@@ -177,23 +177,23 @@ Each full inference requires **$153.20\text{ ms}$** ($5.95\text{ ms}$ Log-iRDT +
 The pipeline advances in **200 ms hop strides** (5 potential evaluations per second):
 
 1. **During Ambient Silence / Standby Habitat ($\text{RMS} < 400$):**
-   - The integer RMS calculation takes **$0.002\text{ ms}$** per 200 ms hop.
-   - Core 1 duty cycle for energy evaluation: $\frac{0.002\text{ ms}}{200\text{ ms}} = 0.001\% \approx 0.00\%$.
+   - The integer RMS calculation takes **0.002 ms** per 200 ms hop.
+   - Core 1 duty cycle for energy evaluation: `0.002 ms / 200 ms = 0.001% ≈ 0.00%`.
    - **The neural network is completely bypassed.**
-   - Core 0 runs FreeRTOS scheduling and Wi-Fi station beacon listening at **$0.38\%$**.
-   - **Total Dual-Core Idle CPU:** $\frac{0.00\% + 0.38\%}{2} = \mathbf{0.19\%}$ (leaves **$9.81\%$ headroom** below the $10\%$ constraint).
-   - Even with intermittent background socket maintenance, dual-core idle remains under **$1.20\%$** (**$8.80\%$ headroom**).
+   - Core 0 runs FreeRTOS scheduling and Wi-Fi station beacon listening at **0.38%**.
+   - **Total Dual-Core Idle CPU:** `(0.00% + 0.38%) / 2 =` **0.19%** (leaves **9.81% headroom** below the 10% constraint).
+   - Even with intermittent background socket maintenance, dual-core idle remains under **1.20%** (**8.80% headroom**).
 
 2. **During Continuous Uninterrupted Speech (Worst-Case Stress Test):**
    - If a continuous non-stop speech audio stream passes the VAD gate on every single 200 ms hop:
-     $$\text{Core 1 Active Duty Cycle} = \frac{153.20\text{ ms}}{200.00\text{ ms}} = \mathbf{76.60\%}$$
-     $$\text{Total Dual-Core Load (Continuous 100% Speech)} = \frac{76.60\% + 0.50\%}{2} = \mathbf{38.55\%}$$
-   - Notice: The previously reported $15.32\%$ Core 1 duty corresponds strictly to a **1.0 s stride** ($153.20\text{ ms} / 1000\text{ ms} = 15.32\%$, dual-core load $\frac{15.32\%}{2} = 7.66\%$).
+     - **Core 1 Active Duty Cycle:** `153.20 ms / 200.00 ms =` **76.60%**
+     - **Total Dual-Core Load (Continuous 100% Speech):** `(76.60% + 0.50%) / 2 =` **38.55%**
+   - Notice: The previously reported 15.32% Core 1 duty corresponds strictly to a **1.0 s stride** (`153.20 ms / 1000 ms = 15.32%`, dual-core load `15.32% / 2 = 7.66%`).
 
 3. **During Real-World Conversational Dialogue (ITU-T P.59 Standard):**
-   - Human speech is bursty, with active voice activity factor $\alpha \approx 10\%\sim 20\%$ in typical habitat dialogue:
-     $$\text{Average Core 1 Duty} = \alpha \times 76.60\% = 0.10 \times 76.60\% = \mathbf{7.66\%}$$
-     $$\text{Average Dual-Core Load} = \frac{7.66\% + 0.40\%}{2} = \mathbf{4.03\%} \quad (< 10\% \text{ mandatory ceiling})$$
+   - Human speech is bursty, with active voice activity factor $\alpha \approx 0.10 \text{ to } 0.20$ (10% to 20%) in typical habitat dialogue:
+     - **Average Core 1 Duty:** $\alpha \times 76.60 = 0.10 \times 76.60 =$ **7.66%**
+     - **Average Dual-Core Load:** `(7.66% + 0.40%) / 2 =` **4.03%** (< 10% mandatory ceiling)
 
 4. **Reconciling Slide 4's "9.28%" Metric:**
    - Slide 4 labelled 9.28% as "CPU utilization (Idle)".
@@ -228,7 +228,7 @@ To rigorously validate resistance to false triggers over prolonged deployment, a
 * **Acoustic Diversity:** Concatenates continuous non-keyword multi-speaker speech with 4 real-world continuous noise tracks (`doing_the_dishes.wav`, `running_tap.wav`, `white_noise.wav`, `exercise_bike.wav`).
 * **Sliding-Window Inferences:** Evaluated across **17,995 sliding-window inferences** (1.0 s window, 200 ms hop stride).
 * **Noise Ceiling Characterization:**
-  * Mean non-keyword posterior: $P(\text{Marvin}) = \mathbf{0.0392\ (3.92\%)}$.
+  * Mean non-keyword posterior: P(Marvin) = \mathbf{0.0392\ (3.92%).
   * 99th percentile non-keyword posterior ($P_{99}$): $\mathbf{0.7200}$.
   * 99.9th percentile non-keyword posterior ($P_{99.9}$): $\mathbf{0.8400}$.
 
@@ -246,12 +246,12 @@ To rigorously validate resistance to false triggers over prolonged deployment, a
 ```
 
 #### Dual-Stage False Alarm Elimination:
-1. **Frontend RMS Energy Gate ($\text{RMS} \ge 400$ / $-38\text{ dBFS}$):** Ambient background silence and low-energy noise hum are bypassed before feature extraction, eliminating over $70\%$ of unnecessary neural evaluations.
+1. **Frontend RMS Energy Gate ($\text{RMS} \ge 400$ / $-38\text{ dBFS}$):** Ambient background silence and low-energy noise hum are bypassed before feature extraction, eliminating over 70% of unnecessary neural evaluations.
 2. **Calibrated Decision Boundary ($\tau = 0.70$):** Authentic spoken target keywords produce posterior probabilities $P \in [0.94, 0.99]$ (mean $0.978$). In continuous streaming mode, the combined VAD gate and $\tau = 0.70$ decision boundary completely suppresses false activations across all 17,995 hops:
    $$\text{Measured False Alarms (1-Hour Stream)} = \frac{0}{17,995\text{ hops}} = \mathbf{0.00\text{ FA/hr (Zero False Wakes)}}$$
 3. **Statistical Confidence Bound:**  
-   Under a Poisson process (Rule of Three), observing $0$ events in a $1$-hour observation window bounds the true false alarm rate at the $95\%$ confidence level to:
-   $$\lambda_{95\%} \le \frac{-\ln(0.05)}{1.0\text{ hr}} \approx \mathbf{3.0\text{ FA/hr}}$$
+   Under a Poisson process (Rule of Three), observing $0$ events in a $1$-hour observation window bounds the true false alarm rate at the 95% confidence level to:
+   $$\lambda_{0.95} \le \frac{-\ln(0.05)}{1.0\text{ hr}} \approx \mathbf{3.0\text{ FA/hr}}$$
    Confirming robust operational stability without overclaiming indefinite zero alarms.
 
 ---
@@ -261,7 +261,7 @@ To rigorously validate resistance to false triggers over prolonged deployment, a
 Traditional KWS models exhibit high false-alarm rates when exposed to phonetically confusable words sharing initial consonants, vowel formants, or rhyming codas with the target keyword.
 
 #### Dataset Generation & Split Partitioning:
-Using neural multi-accent TTS across 11 voices (US, UK, Indian, Australian) and 3 speech rates ($-10\%$, normal, $+10\%$), 462 confusable clips across 14 phonetic foil families were assembled:
+Using neural multi-accent TTS across 11 voices (US, UK, Indian, Australian) and 3 speech rates (-10%, normal, +10%), 462 confusable clips across 14 phonetic foil families were assembled:
 * **Foil Families (14 words):** *bargain, martin, garden, pardon, mining, morning, tartan, carbon, marble, market, marvel, markup, margin, morgan*.
 * **Split Allocation:** 
   - **362 clips** assigned to training.
@@ -281,7 +281,7 @@ Using neural multi-accent TTS across 11 voices (US, UK, Indian, Australian) and 
 ```
 
 * **Held-Out Generalization Proof:** Evaluated on the 50 strictly held-out test clips ([`results/test_foils_evaluation.json`](./results/test_foils_evaluation.json)), the retrained model achieved **0 / 50 false activations (0.00% FPR)**, proving true acoustic generalization on novel voices.
-* **Complete Vocabulary Family Stress Proof:** Across the full 462-clip confusable benchmark, the retrained model suppressed **100% of confusable words (0 / 462)**, eliminating the $2.16\%$ failure rate of baseline models.
+* **Complete Vocabulary Family Stress Proof:** Across the full 462-clip confusable benchmark, the retrained model suppressed **100% of confusable words (0 / 462)**, eliminating the 2.16% failure rate of baseline models.
 
 #### Physical Real-Microphone Live Voice Benchmark ($N = 27$):
 Beyond synthetic clips, the system was validated against physical room acoustics using an INMP441 microphone:
@@ -354,7 +354,7 @@ The telemetry below is captured directly from physical ESP32-S3 hardware registe
 ```
 
 * **Combined All-Subsystem RAM Footprint:** **$205.42\text{ KB}$** base / **$244.42\text{ KB}$** peak dual-window operation (strictly below the $256.00\text{ KB}$ ceiling).
-* **Safety Margin Below 256 KB Ceiling:** **$+11.58\text{ KB}$ ($4.5\%$)** in peak dual-window streaming, **$+50.58\text{ KB}$ ($20.3\%$)** in base listening.
+* **Safety Margin Below 256 KB Ceiling:** **$+11.58\text{ KB}$ (4.5%)** in peak dual-window streaming, **$+50.58\text{ KB}$ (20.3%)** in base listening.
 * **External PSRAM:** **$0.00\text{ KB}$** (Zero external PSRAM required; 100% executed in internal zero-wait-state SRAM).
 
 ---
@@ -378,9 +378,9 @@ To ensure statistical robustness and verify that performance is not a statistica
 ```
 
 #### Reconciling Ungated vs. Gated Metrics:
-* **Ungated Operation:** On standard spoken audio across normal conversational volume ($15\text{--}30\text{ dB SNR}$), the VAD gate passes $100\%$ of speech frames, yielding **$96.75\% \pm 0.50\%$ test accuracy** and **$98.0\% \pm 1.0\%$ target recall**.
-* **Gated Operation under Low-Energy Noise:** Under quiet whispered or boundary recordings ($< -38\text{ dBFS}$), the strict RMS 400 gate deliberately prioritizes complete suppression of false alarms over sub-audible whisper detection, resulting in **$92.0\%$ recall** on whispered clips while preserving **0.00 FA/hr** ambient stability ([`results/esp32s3_below_10pct_cpu_evaluation.json`](./results/esp32s3_below_10pct_cpu_evaluation.json)).
-* **Physical Microphone Performance ($N=27$):** **$85.19\%$ recall** (23 / 27 detected) on real room microphone recordings.
+* **Ungated Operation:** On standard spoken audio across normal conversational volume ($15\text{--}30\text{ dB SNR}$), the VAD gate passes 100% of speech frames, yielding **96.75% ± 0.50% test accuracy** and **98.0% ± 1.0% target recall**.
+* **Gated Operation under Low-Energy Noise:** Under quiet whispered or boundary recordings ($< -38\text{ dBFS}$), the strict RMS 400 gate deliberately prioritizes complete suppression of false alarms over sub-audible whisper detection, resulting in **92.0% recall** on whispered clips while preserving **0.00 FA/hr** ambient stability ([`results/esp32s3_below_10pct_cpu_evaluation.json`](./results/esp32s3_below_10pct_cpu_evaluation.json)).
+* **Physical Microphone Performance ($N=27$):** **85.19% recall** (23 / 27 detected) on real room microphone recordings.
 * **VAD Implementation & Noise Robustness Note:** The deployed firmware implements an integer RMS energy threshold gate ($\text{RMS} \ge 400$, $\sim -38\text{ dBFS}$) with DC-offset compensation. While requiring negligible compute ($0.002\text{ ms}$), fixed-threshold energy gates can be sensitive in high continuous noise ($> 75\text{ dB}$); adaptive noise-floor tracking is planned for future iterations.
 * **Quantization Pipeline Note:** The deployment model was compiled using full integer Post-Training Quantization (PTQ) with logarithmic pre-compression $\log_2(1+x)$ over a representative calibration dataset.
 
@@ -455,7 +455,7 @@ Standard audio front-ends (MFCC/Filterbanks) rely on floating-point FFTs, 40-ban
 **Log-iRDT** implements an integer reaction-diffusion reservoir recurrence:
 - Replaces heavy floating-point multiply-accumulate (MAC) loops with **fixed-point bitshifts and additions**.
 - Maps a 1.0-second audio buffer (16,000 samples) to a dense $20 \times 20$ feature map in **$5.95\text{ ms}$** ($7.45\times$ faster than MFCC).
-- Front-end CPU duty cycle is slashed from **$4.44\%$ down to $0.60\%$**, saving over **9.16 million clock cycles every second**.
+- Front-end CPU duty cycle is slashed from **4.44% down to 0.60%**, saving over **9.16 million clock cycles every second**.
 
 ### 2. 1D Temporal Convolution Classifier (TENet6-Narrow)
 - **Architecture:** Multi-Scale Temporal Convolutions (MTConv) with depthwise separable 1D temporal kernels, trained to capture speech phoneme trajectories across time.
@@ -464,7 +464,7 @@ Standard audio front-ends (MFCC/Filterbanks) rely on floating-point FFTs, 40-ban
 
 ### 3. IMA ADPCM 4:1 Compression & Wideband Audio Quality
 Streaming uncompressed 16-bit linear PCM at 16 kHz generates a $256\text{ kbps}$ ($32\text{ KB/s}$) stream, overloading Wi-Fi buffers and causing packet drop on edge networks:
-- **Bitrate Reduction:** Compresses 16-bit linear samples to 4-bit differential nibbles, reducing stream bandwidth to **$64\text{ kbps}$ ($8\text{ KB/s}$)** — a **$75\%$ data reduction**.
+- **Bitrate Reduction:** Compresses 16-bit linear samples to 4-bit differential nibbles, reducing stream bandwidth to **$64\text{ kbps}$ ($8\text{ KB/s}$)** — a **75% data reduction**.
 - **Packet Formulation:** Packs 320 samples ($20\text{ ms}$) into a 164-byte payload (4 bytes ADPCM state header + 160 bytes data) sent over WebSocket every $20\text{ ms}$.
 - **Audio Quality:** Delivers high speech intelligibility ($\text{Wideband PESQ} = 3.812$), ensuring zero degradation in downstream Whisper/Cloud ASR transcription.
 
@@ -489,13 +489,13 @@ EDGEWAKE establishes a persistent WebSocket at device boot:
 | **NN Inference Time** | **$147.24 \pm 0.014\text{ ms}$** | $2,381.35 \pm 0.012\text{ ms}$ | $3,816.03 \pm 0.007\text{ ms}$ | **$25.9\times$ faster inference** |
 | **Total End-to-End Latency** | **$153.20 \pm 0.015\text{ ms}$** | $2,387.48 \pm 0.017\text{ ms}$ | $3,860.40 \pm 0.086\text{ ms}$ | **$25.2\times$ lower latency** |
 | **Real-Time Factor (RTF)** | **$0.1532 \pm 0.00002$** | $2.3875 \pm 0.00002$ | $3.8604 \pm 0.00009$ | **Strict real-time ($\text{RTF} \ll 1.0$)** |
-| **Front-End Duty Cycle** | **$0.60\% \pm 0.0004\%$** | $0.61\% \pm 0.001\%$ | $4.44\% \pm 0.008\%$ | **$7.4\times$ lower front-end CPU load** |
-| **Core 1 Active CPU Load** | **$15.32\%$ (1s stride) / $76.6\%$ (continuous 200ms)** | $100.00\%$ (Pegged) | $100.00\%$ (Pegged) | **Headroom preserved for streaming** |
-| **CPU Utilization (Dual-Core)**| **$0.19\%$ (Idle) / $4.03\%$ (Conversational)** | $50.00\%$ (Pegged single core) | $50.00\%$ (Pegged single core) | **Meets $< 10\%$ PS constraint** |
+| **Front-End Duty Cycle** | **0.60% ± 0.0004%** | 0.61% ± 0.001% | 4.44% ± 0.008% | **$7.4\times$ lower front-end CPU load** |
+| **Core 1 Active CPU Load** | **15.32% (1s stride) / 76.6% (continuous 200ms)** | 100.00% (Pegged) | 100.00% (Pegged) | **Headroom preserved for streaming** |
+| **CPU Utilization (Dual-Core)**| **0.19% (Idle) / 4.03% (Conversational)** | 50.00% (Pegged single core) | 50.00% (Pegged single core) | **Meets < 10% PS constraint** |
 | **Model Flash Footprint** | **$35.2\text{ KB}$ weights / $48.8\text{ KB}$ flatbuffer** | $34.0\text{ KB}$ (INT8) | $33.7\text{ KB}$ (INT8) | Fits in micro flash (< 50 KB) |
-| **TFLM Tensor Arena** | **$65.0\text{ KB}$ ($54.3\text{ KB}$ actual)** | $80.0\text{ KB}$ | $80.0\text{ KB}$ | **$18.5\%$ arena headroom** |
-| **Keyword Test Accuracy** | **$96.75\% \pm 0.50\%$** | $95.25\%$ | $86.50\%$ | **$+10.25\%$ accuracy vs MFCC** |
-| **Target Keyword Recall** | **$98.00\% \pm 1.00\%$** | $95.00\%$ | $84.00\%$ | High sensitivity to "Marvin" |
+| **TFLM Tensor Arena** | **$65.0\text{ KB}$ ($54.3\text{ KB}$ actual)** | $80.0\text{ KB}$ | $80.0\text{ KB}$ | **18.5% arena headroom** |
+| **Keyword Test Accuracy** | **96.75% ± 0.50%** | 95.25% | 86.50% | **+10.25% accuracy vs MFCC** |
+| **Target Keyword Recall** | **98.00% ± 1.00%** | 95.00% | 84.00% | High sensitivity to "Marvin" |
 | **Confusable Word Rejection**| **$0 / 50$ held-out (0/462 full)** | $14 / 462$ false triggers | $42 / 462$ false triggers | **100% rejection of foils** |
 | **False Alarms (1-hr stream)**| **$0.00\text{ FA/hr}$ ($0/17,995$)** | $0.00\text{ FA/hr}$ | $10.0\text{ FA/hr}$ | Production-grade stability |
 
@@ -511,8 +511,8 @@ EDGEWAKE establishes a persistent WebSocket at device boot:
 | **Total End-to-End Latency** | **$0.0650\text{ ms}$ ($65.0\ \mu\text{s}$)** | $0.3189\text{ ms}$ | $1.1823\text{ ms}$ | **$18.2\times$ faster overall** |
 | **Real-Time Factor (RTF)** | **$0.000065$** | $0.000319$ | $0.001182$ | Ultra-low compute overhead |
 | **Real-Time Margin** | **$15,383\times$ faster than real-time** | $3,135\times$ | $845\times$ | Enormous multitasking headroom |
-| **Continuous Audio CPU Load** | **$0.0065\%$ (1 Core) / $0.0016\%$ (4 Cores)**| $0.0319\%$ | $0.1182\%$ | Barely registers on OS profiler |
-| **Picovoice Porcupine CPU Comparison**| **$0.0065\%$ vs $0.6000\%$** | $0.0319\%$ vs $0.6000\%$ | $0.1182\%$ vs $0.6000\%$ | **$92.3\times$ lower CPU than Porcupine** |
+| **Continuous Audio CPU Load** | **0.0065% (1 Core) / 0.0016% (4 Cores)**| 0.0319% | 0.1182% | Barely registers on OS profiler |
+| **Picovoice Porcupine CPU Comparison**| **0.0065% vs 0.6000%** | 0.0319% vs 0.6000% | 0.1182% vs 0.6000% | **$92.3\times$ lower CPU than Porcupine** |
 
 ---
 
@@ -522,7 +522,7 @@ EDGEWAKE establishes a persistent WebSocket at device boot:
 | :--- | :--- | :--- |
 | **Feature Extraction** | Standard MFCC (FFT + Mel-Filterbanks + DCT) $\rightarrow$ $44.38\text{ ms}$ on MCU | **Log-iRDT** (Multiplication-free reservoir recurrence) $\rightarrow$ **$5.95\text{ ms}$ ($7.45\times$ faster)** |
 | **Inference Latency** | 2D CNNs / Transformers $\rightarrow 2.4\text{--}3.9\text{ seconds}$ to process 1s audio | **1D Temporal TENet6-Narrow** $\rightarrow$ **$153.20\text{ ms}$ ($25\times$ faster, true real-time)** |
-| **CPU Usage / Headroom** | Often over $100\%$ (pegged, no headroom for Wi-Fi / networking) | **$0.19\%$ idle / $4.03\%$ conversational** ($84\%$ Core 1 stays free for streaming, < 10% limit) |
+| **CPU Usage / Headroom** | Often over 100% (pegged, no headroom for Wi-Fi / networking) | **0.19% idle / 4.03% conversational** (84% Core 1 stays free for streaming, < 10% limit) |
 | **Cloud Streaming Handoff**| Post-detection TCP/TLS handshake lag ($300\text{--}500\text{ ms}$ delay) | **Pre-opened WebSocket + 4:1 IMA ADPCM** $\rightarrow$ **Zero handshake lag, 175.41 ms median E2E** |
 | **Phonetic Foil Robustness** | Prone to false activations on rhyming words | **Hard-negative retrained** $\rightarrow$ **$0/50$ test foils, $0/462$ full set, $0.00\text{ FA/hr}$** |
 | **Framework Independence** | Locked into proprietary, paid commercial SDKs | **100% Open-Source** (TFLM, Keras, standard C headers) |
@@ -534,7 +534,7 @@ EDGEWAKE establishes a persistent WebSocket at device boot:
 ### Technical Feasibility
 - Runs seamlessly on ultra-low-cost, commercial-off-the-shelf hardware (ESP32-S3 DevKit).
 - Discards heavy Transformers/RNNs in favor of 1D temporal convolutions, eliminating the memory and compute overhead that disqualifies large models.
-- Streams only post-wake-word audio to the cloud rather than an uninterrupted stream, slashing network bandwidth by over **$95\%$**.
+- Streams only post-wake-word audio to the cloud rather than an uninterrupted stream, slashing network bandwidth by over **95%**.
 
 ### Real-World Viability
 - **Data Privacy:** Normal conversation never leaves the edge device; raw audio is only transmitted after local acoustic wake-word confirmation.
