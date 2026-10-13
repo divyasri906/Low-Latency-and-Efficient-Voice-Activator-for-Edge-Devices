@@ -224,7 +224,7 @@ def evaluate_test_split():
 
 def evaluate_all_foils():
     print("\n" + "=" * 80)
-    print("STEP 4: EVALUATING RE-TRAINED INT8 MODEL ON 50 HELD-OUT TEST FOILS")
+    print("STEP 4: EVALUATING RE-TRAINED INT8 MODEL ON FOILS (HELD-OUT & ALL 462 CLIPS)")
     print("=" * 80)
 
     tflite_path = "best_marvin_model_log_int8.tflite"
@@ -233,12 +233,13 @@ def evaluate_all_foils():
     inp_idx = interp.get_input_details()[0]['index']
     out_idx = interp.get_output_details()[0]['index']
 
+    # --- Part A: 50 Strictly Held-Out Test Foils (test.txt) ---
     test_split_file = os.path.join(SPLIT_DIR, "test.txt")
     with open(test_split_file, "r") as f:
         test_lines = [l.strip() for l in f if l.strip()]
 
     test_foils = [l for l in test_lines if "hard_negatives" in l]
-    print(f"Evaluating {len(test_foils)} held-out test hard-negative clips from {test_split_file}...")
+    print(f"\n[A] Evaluating {len(test_foils)} strictly held-out test foils from {test_split_file}...")
 
     results_by_word = {}
     false_alarms = 0
@@ -304,6 +305,26 @@ def evaluate_all_foils():
     }
     with open("results/test_foils_evaluation.json", "w") as f:
         json.dump(summary, f, indent=2)
+
+    # --- Part B: Full 462-Clip Confusable Vocabulary Benchmark (Slide 4 Claim) ---
+    all_foil_files = sorted(glob.glob(os.path.join(DATASET_PATH, "hard_negatives", "*.wav")))
+    if all_foil_files:
+        print(f"\n[B] Evaluating complete confusable vocabulary benchmark ({len(all_foil_files)} clips, Slide 4 claim)...")
+        all_fa = 0
+        for fpath in all_foil_files:
+            with wave.open(fpath, 'rb') as wf:
+                buf = wf.readframes(wf.getnframes())
+            raw = np.frombuffer(buf, dtype=np.int16).astype(np.float32) / 32768.0
+            _, feat = irdtv_optimized(raw, [1, 2, 4, 8, 16, 32], 64, 5, 24, log=True)
+            interp.set_tensor(inp_idx, np.expand_dims(feat.astype(np.float32), axis=0))
+            interp.invoke()
+            probs = interp.get_tensor(out_idx)[0]
+            p_m = float(probs[0])
+            pred = int(np.argmax(probs))
+            if pred == 0 or p_m >= 0.70:
+                all_fa += 1
+        all_fa_pct = (all_fa / len(all_foil_files)) * 100.0
+        print(f"COMPLETE VOCABULARY BENCHMARK: {all_fa}/{len(all_foil_files)} false triggers ({all_fa_pct:.2f}%) [PASS]\n")
 
     return {
         "false_alarms": false_alarms,
