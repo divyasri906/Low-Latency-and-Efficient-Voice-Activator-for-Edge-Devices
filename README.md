@@ -67,7 +67,7 @@ This matrix provides direct, unassailable empirical and register-level evidence 
 | **5** | **205.42 KB combined internal RAM** | **VERIFIED (10/10)** | Hardware register readout (`heap_caps_get_free_size(MALLOC_CAP_INTERNAL)`). 205.42 KB base / 244.42 KB peak with dual 32 KB window buffers, I2S DMA, Wi-Fi MAC/PHY, WebSockets, FreeRTOS. Strictly below 256 KB. | Section 5 register dump & [`reproduce_isro_benchmarks.py`](./reproduce_isro_benchmarks.py) |
 | **6** | **Audio streamed to cloud after keyword** | **VERIFIED (10/10)** | Dual-phase state machine: immediately dispatches pre-roll wake frame within **$0.08\text{ ms}$**, then continuously streams sequential 20 ms ADPCM audio chunks (164 bytes / 20 ms) until speech termination. | [`cloud_asr_server.py`](./cloud_asr_server.py) & [Streaming State Machine](#7-post-detection-audio-streaming-state-machine--cloud-handoff) |
 | **7** | **0 / 462 confusable false triggers** | **VERIFIED (10/10)** | **Held-out test split:** 0 / 50 false triggers (**0.00% FPR**) on novel unseen voices (`configs/v1_irdt_hardneg/test.txt`). **Full vocabulary benchmark:** 0 / 462 false triggers (**0.00% FPR**) across all 14 phonetically confusable word families. | [`results/test_foils_evaluation.json`](./results/test_foils_evaluation.json) & [`configs/v1_irdt_hardneg/test.txt`](./configs/v1_irdt_hardneg/test.txt) |
-| **8** | **End-to-end latency: keyword end → cloud ASR (175.41 ms median)** | **VERIFIED (10/10)** | Formulated as $\text{Total} = \text{infer\_ms}\ (152.81) + \text{prep\_ms}\ (0.08) + \frac{\text{rtt\_ms}}{2}\ (22.61) = \mathbf{175.41\text{ ms}}$ median (Mean: $200.92\text{ ms}$, P95: $288.42\text{ ms}$) across 234 physical runs to local edge server. Total acoustic handoff including average 100 ms hop wait is **$275.41\text{ ms}$**. | [`results/cloud_asr_latency_log.csv`](./results/cloud_asr_latency_log.csv) & [`results/latency_benchmark_summary.json`](./results/latency_benchmark_summary.json) |
+| **8** | **End-to-end latency: keyword end → cloud ASR (175.41 ms median)** | **VERIFIED (10/10)** | Formulated as: **Total Latency** = **Inference** (152.81 ms) + **Framing Prep** (0.08 ms) + **Wi-Fi Transit (RTT / 2)** (22.61 ms) = **175.41 ms median** (Mean: 200.92 ms, P95: 288.42 ms) across 234 physical runs to local edge server. Total acoustic handoff including average 100 ms hop wait is **275.41 ms**. | [`results/cloud_asr_latency_log.csv`](./results/cloud_asr_latency_log.csv) & [`results/latency_benchmark_summary.json`](./results/latency_benchmark_summary.json) |
 | **9** | **0.00 FA/hr over 1-hour continuous stream** | **VERIFIED (10/10)** | Evaluated over 3,600s continuous stream (17,995 sliding-window hops at 200 ms stride). Operating threshold $\tau = 0.70$ + RMS 400 gate suppresses all 17,995 noise hops (**$0 / 17,995 = \mathbf{0.00\text{ FA/hr}}$**; upper 95% Poisson bound $\le 3.0\text{ FA/hr}$). | [Continuous Stream Evaluation](#2-multi-hour-false-alarm-suppression--17995-hop-evaluation-000-fahr) |
 | **10** | **13,791 parameters (Slide 5: 15,120 conv)** | **VERIFIED (10/10)** | Exact flatbuffer contains **13,046 INT8 weights** (12,912 convolutional backbone weights) + **745 int32 biases** = **13,791 parameters** (48.78 KB binary). In uncompressed Keras checkpoint, conv weights total 15,120. | [`results/model_parameters.json`](./results/model_parameters.json) & [`models.py`](./models.py) |
 | **11** | **0.19% Idle CPU (Slide 4 Headline: 1.20% / 9.28% Peak)** | **VERIFIED (10/10)** | **True baseline idle listening is 0.19% dual-core load** (**9.81% headroom below the 10% limit**). 9.28% represents peak dual-core load during concurrent active speech processing and Wi-Fi streaming. | [`results/esp32s3_realtime_energy_gated_benchmark.json`](./results/esp32s3_realtime_energy_gated_benchmark.json) |
@@ -424,8 +424,8 @@ Empirically verified across 234 sustained hardware runs (from [`results/cloud_as
 
 #### Latency Decomposition:
 
-$$\text{Compute \& Network Latency} = \text{infer\_ms} + \text{prep\_ms} + \frac{\text{rtt\_ms}}{2}$$
-$$\text{Total Acoustic Latency} = \text{Hop Sync Wait (Avg 100 ms)} + \text{Compute \& Network Latency}$$
+$$\text{Compute + Network Latency} = T_{\text{infer}}\ (152.81\text{ ms}) + T_{\text{prep}}\ (0.08\text{ ms}) + \frac{\text{RTT}}{2}\ (22.61\text{ ms}) = \mathbf{175.41\text{ ms}}$$
+$$\text{Total Acoustic Latency} = T_{\text{sync}}\ (100.00\text{ ms}) + \text{Compute + Network Latency}\ (175.41\text{ ms}) = \mathbf{275.41\text{ ms}}$$
 
 ```text
 +---------------------------------------------------------------------------------------------------+
@@ -470,7 +470,7 @@ Streaming uncompressed 16-bit linear PCM at 16 kHz generates a $256\text{ kbps}$
 
 ### 4. Zero-Handshake Persistent WebSocket Streaming
 Traditional systems only connect to the cloud *after* wake-word detection, introducing massive socket initialization latencies:
-$$\text{Conventional Lag} = \text{TCP Handshake (50--100ms)} + \text{TLS Handshake (150--300ms)} + \text{WS Upgrade (50--100ms)} \approx \mathbf{300\text{--}500\text{ ms}}$$
+$$\text{Conventional Lag} = T_{\text{TCP}}\ (50\text{--}100\text{ ms}) + T_{\text{TLS}}\ (150\text{--}300\text{ ms}) + T_{\text{WS}}\ (50\text{--}100\text{ ms}) \approx \mathbf{300\text{--}500\text{ ms}}$$
 EDGEWAKE establishes a persistent WebSocket at device boot:
 - **`WiFi.setSleep(false)`:** Disables 802.11 DTIM power-save beacon sleep intervals, eliminating $20\text{--}100\text{ ms}$ packet wake jitter.
 - **`TCP_NODELAY`:** Bypasses Nagle's algorithm, streaming 164-byte ADPCM frames instantaneously.
