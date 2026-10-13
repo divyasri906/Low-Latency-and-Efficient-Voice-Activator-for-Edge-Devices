@@ -98,6 +98,10 @@ This matrix provides direct, unassailable empirical and register-level evidence 
 
 ## System Architecture & Operational Pipeline
 
+<p align="center">
+  <img src="./docs/images/architecture_flow.png" alt="EDGEWAKE Real-Time Edge Inference and Cloud Streaming Architecture Flow" width="900">
+</p>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -140,6 +144,12 @@ sequenceDiagram
 ---
 
 ## Hardware Prototype & Physical Wiring
+
+<p align="center">
+  <img src="./docs/images/hardware_prototype.png" alt="EDGEWAKE ESP32-S3 Physical Hardware Prototype" width="800">
+  <br>
+  <em>Physical hardware prototype: ESP32-S3 DevKitC-1 (Xtensa LX7 @ 240 MHz) wired to INMP441 I2S MEMS microphone on breadboard.</em>
+</p>
 
 The physical prototype is deployed on an **ESP32-S3 DevKitC-1 (Xtensa Dual-Core LX7 @ 240 MHz, 512 KB SRAM, 16 MB Flash)** paired with an **INMP441 I2S MEMS omnidirectional digital microphone**:
 
